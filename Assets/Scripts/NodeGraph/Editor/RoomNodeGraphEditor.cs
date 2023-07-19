@@ -6,7 +6,8 @@ using System;
 public class RoomNodeGraphEditor : EditorWindow
 {
     private GUIStyle roomNodeStyle;
-    private static RoomNodeGraphSO currentRoonNodeGraph;
+    private static RoomNodeGraphSO currentRoomNodeGraph;
+    private RoomNodeSO currentRoomNode = null;
     private RoomNodeTypeListSO roomNodeTypeList;
 
 	// Node Layout 값 설정
@@ -14,6 +15,11 @@ public class RoomNodeGraphEditor : EditorWindow
     private const float nodeHeight = 75f;
     private const int nodePadding = 25;
     private const int nodeBorder = 12;
+
+    // Node 연결선 값 설정
+    private const float connectingLineWidth = 3f;
+    private const float connectingLineArrowSize = 6f;
+
 
     // Custom Editor Window 생성
     [MenuItem("Room Node Graph Editor", menuItem = "Window/Dungeon Editor/Room Node Graph Editor")]
@@ -44,7 +50,7 @@ public class RoomNodeGraphEditor : EditorWindow
         {
             OpenWindow();
 
-            currentRoonNodeGraph = roomNodeGraph;
+            currentRoomNodeGraph = roomNodeGraph;
 
             return true;
         }
@@ -55,9 +61,13 @@ public class RoomNodeGraphEditor : EditorWindow
     // update 함수와 비슷한 역할
 	private void OnGUI()
     {
-        if (currentRoonNodeGraph != null)
+        if (currentRoomNodeGraph != null)
         {
+			DrawDraggedLine();
+
             ProcessEvents(Event.current);
+
+            DrawRoomConnections();
 
             DrawRoomNodes();
         }
@@ -66,10 +76,44 @@ public class RoomNodeGraphEditor : EditorWindow
             Repaint();
 	}
 
+	private void DrawDraggedLine()
+	{
+        if (currentRoomNodeGraph.linePosition != Vector2.zero)
+        {
+            Handles.DrawBezier(currentRoomNodeGraph.roomNodeToDrawLineFrom.rect.center, currentRoomNodeGraph.linePosition, currentRoomNodeGraph.roomNodeToDrawLineFrom.rect.center, currentRoomNodeGraph.linePosition, Color.white, null, connectingLineWidth);
+        }
+	}
+
 	private void ProcessEvents(Event currentEvent)
 	{
-		ProcessRoomNodeGraphEvents(currentEvent);
+		if (currentRoomNode == null || currentRoomNode.isLeftClickDragging == false)
+        {
+		currentRoomNode = IsMouseOverRoomNode(currentEvent);
+        }
+
+        if (currentRoomNode == null || currentRoomNodeGraph.roomNodeToDrawLineFrom != null)
+        {
+			ProcessRoomNodeGraphEvents(currentEvent);
+		}
+        else
+        {
+			currentRoomNode.ProcessEvents(currentEvent);
+        }
 	}
+
+	private RoomNodeSO IsMouseOverRoomNode(Event currentEvent)
+	{
+        for (int i = currentRoomNodeGraph.roomNodeList.Count - 1; i >= 0; i--)
+        {
+            // rect.Contains는 rect안에 포인트가 있는지 확인함
+			if (currentRoomNodeGraph.roomNodeList[i].rect.Contains(currentEvent.mousePosition))
+            {
+				return currentRoomNodeGraph.roomNodeList[i];
+			}
+		}
+
+        return null;
+    }
 
 	private void ProcessRoomNodeGraphEvents(Event currentEvent)
 	{
@@ -78,13 +122,19 @@ public class RoomNodeGraphEditor : EditorWindow
 			case EventType.MouseDown:
 				ProcessMousedownEvent(currentEvent);
                 break;
+			case EventType.MouseUp:
+				ProcessMouseUpEvent(currentEvent);
+				break;
+			case EventType.MouseDrag:
+                ProcessMouseDragEvent(currentEvent);
+				break;
 
             default:
 				break;
 		}
 	}
 
-    private void ProcessMousedownEvent(Event currentEvent)
+	private void ProcessMousedownEvent(Event currentEvent)
     {
         if (currentEvent.button == 1)
         {
@@ -112,18 +162,114 @@ public class RoomNodeGraphEditor : EditorWindow
 
         RoomNodeSO roomNode = ScriptableObject.CreateInstance<RoomNodeSO>();
 
-        currentRoonNodeGraph.roomNodeList.Add(roomNode);
+        currentRoomNodeGraph.roomNodeList.Add(roomNode);
 
-        roomNode.Initialise(new Rect(mousePosition, new Vector2(nodeWidth, nodeHeight)), currentRoonNodeGraph, roomNodeType);
+        roomNode.Initialise(new Rect(mousePosition, new Vector2(nodeWidth, nodeHeight)), currentRoomNodeGraph, roomNodeType);
 
-        AssetDatabase.AddObjectToAsset(roomNode, currentRoonNodeGraph);
+        AssetDatabase.AddObjectToAsset(roomNode, currentRoomNodeGraph);
 
         AssetDatabase.SaveAssets();
+
+        currentRoomNodeGraph.OnValidate();
+	}
+
+	private void ProcessMouseUpEvent(Event currentEvent)
+	{
+		if (currentEvent.button == 1 && currentRoomNodeGraph.roomNodeToDrawLineFrom != null)
+        {
+            RoomNodeSO roomNode = IsMouseOverRoomNode(currentEvent);
+
+            if (roomNode != null)
+            {
+				if (currentRoomNodeGraph.roomNodeToDrawLineFrom.AddChildRoomNodeIDToRoomNode(roomNode.id))
+                {
+                    roomNode.AddParentRoomNodeIDToRoomNode(currentRoomNodeGraph.roomNodeToDrawLineFrom.id);
+                }
+			}
+
+            ClearLineDrag();
+        }
+	}
+
+	private void ProcessMouseDragEvent(Event currentEvent)
+	{
+        if (currentEvent.button == 1)
+        {
+            ProcessRightMouseDragEvent(currentEvent);
+        }
+    }
+
+	private void ProcessRightMouseDragEvent(Event currentEvent)
+	{
+        if (currentRoomNodeGraph.roomNodeToDrawLineFrom != null)
+        {
+            DragConnectingLine(currentEvent.delta);
+            GUI.changed = true;
+        }
+	}
+
+	private void DragConnectingLine(Vector2 delta)
+	{
+		currentRoomNodeGraph.linePosition += delta;
+	}
+
+	private void ClearLineDrag()
+	{
+		currentRoomNodeGraph.roomNodeToDrawLineFrom = null;
+        currentRoomNodeGraph.linePosition = Vector2.zero;
+        GUI.changed = true;
+	}
+
+	private void DrawRoomConnections()
+	{
+		foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+        {
+			if (roomNode.childRoomNodeIDList.Count > 0)
+            {
+                foreach (string childRoomNodeID in roomNode.childRoomNodeIDList)
+                { 
+                    if (currentRoomNodeGraph.roomNodeDictionary.ContainsKey(childRoomNodeID))
+                    {
+                        DrawConnectionLine(roomNode, currentRoomNodeGraph.roomNodeDictionary[childRoomNodeID]);
+
+                        GUI.changed = true;
+                    }
+                }
+            }
+		}
+	}
+
+	private void DrawConnectionLine(RoomNodeSO parentRoomNode, RoomNodeSO childRoomNode)
+	{
+        Vector2 startPosition = parentRoomNode.rect.center;
+        Vector2 endPosition = childRoomNode.rect.center;
+
+		// 선의 중간 점 찾기
+		Vector2 midPosition = (endPosition + startPosition) / 2f;
+
+		// 선의 방향벡터 구하기
+		Vector2 direction = endPosition - startPosition;
+
+		// 선의 중간점에서 화살표 날개로 생성할 점 구하기
+		Vector2 arrowTailPoint1 = midPosition - new Vector2(-direction.y, direction.x).normalized * connectingLineArrowSize; // 윗점
+		Vector2 arrowTailPoint2 = midPosition + new Vector2(-direction.y, direction.x).normalized * connectingLineArrowSize; // 아랫점
+
+		// 선의 중간점에서 화살표 꼭짓점으로 생성할 점 구하기
+		Vector2 arrowHeadPoint = midPosition + direction.normalized * connectingLineArrowSize;
+
+		// 찾은 화살표 점들에 연결선 그리기
+		Handles.DrawBezier(arrowHeadPoint, arrowTailPoint1, arrowHeadPoint, arrowTailPoint1, Color.white, null, connectingLineWidth);
+        Handles.DrawBezier(arrowHeadPoint, arrowTailPoint2, arrowHeadPoint, arrowTailPoint2, Color.white, null, connectingLineWidth);
+
+        // 노드 연결선 그리기
+		Handles.DrawBezier(startPosition, endPosition, startPosition, endPosition, Color.white, null, connectingLineWidth);
+
+        GUI.changed = true;
 	}
 
 	private void DrawRoomNodes()
     {
-        foreach (RoomNodeSO roomNode in currentRoonNodeGraph.roomNodeList)
+        foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
         {
 			roomNode.Draw(roomNodeStyle);
 		}
