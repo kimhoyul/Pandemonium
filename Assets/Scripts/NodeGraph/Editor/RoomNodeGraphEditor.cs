@@ -6,6 +6,7 @@ using System;
 public class RoomNodeGraphEditor : EditorWindow
 {
     private GUIStyle roomNodeStyle;
+    private GUIStyle roomNodeSelectedStyle;
     private static RoomNodeGraphSO currentRoomNodeGraph;
     private RoomNodeSO currentRoomNode = null;
     private RoomNodeTypeListSO roomNodeTypeList;
@@ -30,15 +31,29 @@ public class RoomNodeGraphEditor : EditorWindow
 
 	private void OnEnable()
 	{
-		// Node Style 설정
+        Selection.selectionChanged += InspectorSelectionChanged;
+
+		// 미선택 Node Style 설정
 		roomNodeStyle = new GUIStyle();
 		roomNodeStyle.normal.background = EditorGUIUtility.Load("node1") as Texture2D;
 		roomNodeStyle.normal.textColor = Color.white;
 		roomNodeStyle.padding = new RectOffset(nodePadding, nodePadding, nodePadding, nodePadding);
 		roomNodeStyle.border = new RectOffset(nodeBorder, nodeBorder, nodeBorder, nodeBorder);
 
+		// 선택 Node Style 설정
+		roomNodeSelectedStyle = new GUIStyle();
+        roomNodeSelectedStyle.normal.background = EditorGUIUtility.Load("node1 on") as Texture2D;
+        roomNodeSelectedStyle.normal.textColor = Color.white;
+        roomNodeSelectedStyle.padding = new RectOffset(nodePadding, nodePadding, nodePadding, nodePadding);
+        roomNodeSelectedStyle.border = new RectOffset(nodeBorder, nodeBorder, nodeBorder, nodeBorder);
+
         // RoomNodeTypeListSO 가져오기
         roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
+	}
+
+	private void OnDisable()
+	{
+		Selection.selectionChanged -= InspectorSelectionChanged;
 	}
 
 	[OnOpenAsset(0)]
@@ -88,7 +103,7 @@ public class RoomNodeGraphEditor : EditorWindow
 	{
 		if (currentRoomNode == null || currentRoomNode.isLeftClickDragging == false)
         {
-		currentRoomNode = IsMouseOverRoomNode(currentEvent);
+		    currentRoomNode = IsMouseOverRoomNode(currentEvent);
         }
 
         if (currentRoomNode == null || currentRoomNodeGraph.roomNodeToDrawLineFrom != null)
@@ -140,6 +155,11 @@ public class RoomNodeGraphEditor : EditorWindow
         {
 			ShowContextMenu(currentEvent.mousePosition);
         }
+        else if (currentEvent.button == 0)
+        {
+            ClearLineDrag();
+            ClearAllSelectedRoomNodes();
+        }
 	}
 
 	private void ShowContextMenu(Vector2 mousePosition)
@@ -153,6 +173,14 @@ public class RoomNodeGraphEditor : EditorWindow
 
 	private void CreateRoomNode(object mousePositionObject)
 	{
+        // 최초로 roomNode를 생성한다면
+        if (currentRoomNodeGraph.roomNodeList.Count == 0)
+        {
+            // Entrance Node를 생성한다.
+            CreateRoomNode(new Vector2(200f, 200f), roomNodeTypeList.list.Find(x => x.isEntrance)); 
+        }
+
+        // None Node를 생성한다.
         CreateRoomNode(mousePositionObject, roomNodeTypeList.list.Find(x => x.isNone));
 	}
 
@@ -160,17 +188,34 @@ public class RoomNodeGraphEditor : EditorWindow
 	{
         Vector2 mousePosition = (Vector2)mousePositionObject;
 
+        // 스크립트블 오브젝트 생성(클래스는 RoomNodeSO)
         RoomNodeSO roomNode = ScriptableObject.CreateInstance<RoomNodeSO>();
 
+        // 생성한 룸노드를 현재 그래프의 리스트에 추가한다.
         currentRoomNodeGraph.roomNodeList.Add(roomNode);
 
+        // 생성한 룸노드의 위치 와 타입을 설정한다.
         roomNode.Initialise(new Rect(mousePosition, new Vector2(nodeWidth, nodeHeight)), currentRoomNodeGraph, roomNodeType);
 
+        // 생성한 스크립트블 오브젝트를 룸 노드를 현재 그래프의 스크립트블 오브젝트의 하위 자식으로 추가한다.
         AssetDatabase.AddObjectToAsset(roomNode, currentRoomNodeGraph);
 
         AssetDatabase.SaveAssets();
 
         currentRoomNodeGraph.OnValidate();
+	}
+
+	private void ClearAllSelectedRoomNodes()
+	{
+		foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+        {
+            if (roomNode.isSelected)
+            {
+                roomNode.isSelected = false;
+
+                GUI.changed = true;
+            }
+        }
 	}
 
 	private void ProcessMouseUpEvent(Event currentEvent)
@@ -271,9 +316,28 @@ public class RoomNodeGraphEditor : EditorWindow
     {
         foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
         {
-			roomNode.Draw(roomNodeStyle);
+            if (roomNode.isSelected)
+            {
+				roomNode.Draw(roomNodeSelectedStyle);
+			}
+            else
+            {
+				roomNode.Draw(roomNodeStyle);
+			}
 		}
 
         GUI.changed = true;
    	}
+
+	private void InspectorSelectionChanged()
+	{
+		RoomNodeGraphSO roomNodeGraph = Selection.activeObject as RoomNodeGraphSO;
+
+		if (roomNodeGraph != null)
+        {
+			currentRoomNodeGraph = roomNodeGraph;
+            GUI.changed = true;
+		}
+	}
 }
+
