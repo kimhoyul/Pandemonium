@@ -166,9 +166,9 @@ public class RoomNodeGraphEditor : EditorWindow
 	{
 		GenericMenu menu = new GenericMenu();
 
-        menu.AddItem(new GUIContent("Create Room Node"), false, CreateRoomNode, mousePosition);
+        menu.AddItem(new GUIContent("던전 룸 생성"), false, CreateRoomNode, mousePosition);
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("Select All Room Nodes"), false, SelectAllRoomNodes);
+        menu.AddItem(new GUIContent("모든 던전 룸 선택"), false, SelectAllRoomNodes);
 
         menu.ShowAsContext();
 	}
