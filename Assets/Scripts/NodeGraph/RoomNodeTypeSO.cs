@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RoomNodeType_", menuName = "Scriptable Objects/Dungeon/Room Node Type")]
+[CreateAssetMenu(fileName = "RoomNodeType_", menuName = "Scriptable Objects/던전/던전 룸 노드 타입")]
 public class RoomNodeTypeSO : ScriptableObject
 {
 	public string roomNodeTypeName;

@@ -265,14 +265,42 @@ public class RoomNodeSO : ScriptableObject
 		return true;
 	}
 
+	/// <summary>
+	/// 현재 노드에 부모 노드를 추가.
+	/// </summary>
 	public bool AddParentRoomNodeIDToRoomNode(string parentID)
 	{
 		parentRoomNodeIDList.Add(parentID);
 		return true;
 	}
 
+	/// <summary>
+	/// 현재 노드에서 자식 노드를 제거.
+	/// </summary>
+	public bool RemoveChildRoomNodeIDFromRoomNode(string childID)
+	{
+		if (childRoomNodeIDList.Contains(childID))
+		{
+			childRoomNodeIDList.Remove(childID);
+			return true;
+		}
+		return false;
+	}
+
+    /// <summary>
+    /// 현재 노드에서 부모 노드를 제거.
+    /// </summary>
+    public bool RemoveParentRoomNodeIDFromRoomNode(string parentID)
+    {
+        if (parentRoomNodeIDList.Contains(parentID))
+        {
+            parentRoomNodeIDList.Remove(parentID);
+            return true;
+        }
+        return false;
+    }
 
 #endif
 
-	#endregion Editor Code
+    #endregion Editor Code
 }

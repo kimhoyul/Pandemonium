@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using System;
+using System.Collections.Generic;
 
 public class RoomNodeGraphEditor : EditorWindow
 {
@@ -23,10 +23,10 @@ public class RoomNodeGraphEditor : EditorWindow
 
 
     // Custom Editor Window 생성
-    [MenuItem("Room Node Graph Editor", menuItem = "Window/Dungeon Editor/Room Node Graph Editor")]
+    [MenuItem("던전 룸 노드 그래프 에디터", menuItem = "Window/던전 에디터/던전 룸 노드 그래프 에디터")]
     private static void OpenWindow()
     {
-        GetWindow<RoomNodeGraphEditor>("Room Node Graph Editor");
+        GetWindow<RoomNodeGraphEditor>("던전 룸 노드 그래프 에디터");
     }
 
 	private void OnEnable()
@@ -166,14 +166,17 @@ public class RoomNodeGraphEditor : EditorWindow
 	{
 		GenericMenu menu = new GenericMenu();
 
-        menu.AddItem(new GUIContent("던전 룸 생성"), false, CreateRoomNode, mousePosition);
+        menu.AddItem(new GUIContent("룸 노드 생성"), false, CreateRoomNode, mousePosition);
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("모든 던전 룸 선택"), false, SelectAllRoomNodes);
+        menu.AddItem(new GUIContent("모든 룸 노드 선택"), false, SelectAllRoomNodes);
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("선택된 룸 노드 연결 끊기"), false, DeleteSelectedRoomNodeLinks);
+        menu.AddItem(new GUIContent("선택된 룸 노드 삭제"), false, DeleteSelectedRoomNodes);
 
         menu.ShowAsContext();
 	}
 
-	private void CreateRoomNode(object mousePositionObject)
+    private void CreateRoomNode(object mousePositionObject)
 	{
         // 최초로 roomNode를 생성한다면
         if (currentRoomNodeGraph.roomNodeList.Count == 0)
@@ -207,7 +210,80 @@ public class RoomNodeGraphEditor : EditorWindow
         currentRoomNodeGraph.OnValidate();
 	}
 
-	private void ClearAllSelectedRoomNodes()
+    /// <summary>
+    /// 선택된 룸 노드를 삭제
+    /// </summary>
+    private void DeleteSelectedRoomNodes()
+    {
+        Queue<RoomNodeSO> roomNodeDeletionQueue = new Queue<RoomNodeSO>();
+
+        foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+        {
+            if (roomNode.isSelected && !roomNode.roomNodeType.isEntrance)
+            {
+                roomNodeDeletionQueue.Enqueue(roomNode);
+
+                foreach (string childRoonNodeID in roomNode.childRoomNodeIDList)
+                {
+                    RoomNodeSO childRoomNode = currentRoomNodeGraph.GetRoomNode(childRoonNodeID);
+                    
+                    if (childRoomNode != null)
+                    {
+                        childRoomNode.RemoveParentRoomNodeIDFromRoomNode(roomNode.id);
+                    }
+                }
+
+                foreach (string parentRoomNodeID in roomNode.parentRoomNodeIDList)
+                {
+                    RoomNodeSO parentRoomNode = currentRoomNodeGraph.GetRoomNode(parentRoomNodeID);
+
+                    if (parentRoomNode != null)
+                    {
+                        parentRoomNode.RemoveChildRoomNodeIDFromRoomNode(roomNode.id);
+                    }
+                }
+            }
+        }
+
+        while (roomNodeDeletionQueue.Count > 0)
+        {
+            RoomNodeSO roomNodeToDelete = roomNodeDeletionQueue.Dequeue();
+
+            currentRoomNodeGraph.roomNodeDictionary.Remove(roomNodeToDelete.id);
+
+            currentRoomNodeGraph.roomNodeList.Remove(roomNodeToDelete);
+
+            DestroyImmediate(roomNodeToDelete, true);
+
+            AssetDatabase.SaveAssets();
+        }
+    }
+
+    /// <summary>
+    /// 선택된 룸 노드의 연결을 삭제
+    /// </summary>
+    private void DeleteSelectedRoomNodeLinks()
+    {
+        foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+        {
+            if (roomNode.isSelected && roomNode.childRoomNodeIDList.Count > 0)
+            {
+                for (int i = roomNode.childRoomNodeIDList.Count - 1; i >= 0; i--)
+                {
+                    RoomNodeSO childRoomNode = currentRoomNodeGraph.GetRoomNode(roomNode.childRoomNodeIDList[i]);
+
+                    if (childRoomNode != null && childRoomNode.isSelected)
+                    {
+                        roomNode.RemoveChildRoomNodeIDFromRoomNode(childRoomNode.id);
+
+                        childRoomNode.RemoveParentRoomNodeIDFromRoomNode(roomNode.id);
+                    }
+                }
+            }
+        }
+    }
+
+    private void ClearAllSelectedRoomNodes()
 	{
 		foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
         {
@@ -231,7 +307,6 @@ public class RoomNodeGraphEditor : EditorWindow
         }
         GUI.changed = true;
     }
-
 
     private void ProcessMouseUpEvent(Event currentEvent)
 	{
