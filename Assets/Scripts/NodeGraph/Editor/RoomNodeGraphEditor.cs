@@ -153,7 +153,23 @@ public class RoomNodeGraphEditor : EditorWindow
         {
 			currentRoomNode.ProcessEvents(currentEvent);
         }
-	}
+
+        // 단축키
+        if (currentEvent.type == EventType.KeyDown)
+        {
+            // 모든 노드 선택
+            if (currentEvent.keyCode == KeyCode.A && currentEvent.control)
+            {
+                SelectAllRoomNodes();
+            }
+
+            // 선택된 노드 삭제
+            if (currentEvent.keyCode == KeyCode.Delete)
+            {
+                DeleteSelectedRoomNodes();
+            }
+        }
+    }
 
 	private RoomNodeSO IsMouseOverRoomNode(Event currentEvent)
 	{
@@ -207,10 +223,10 @@ public class RoomNodeGraphEditor : EditorWindow
 
         menu.AddItem(new GUIContent("룸 노드 생성"), false, CreateRoomNode, mousePosition);
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("모든 룸 노드 선택"), false, SelectAllRoomNodes);
+        menu.AddItem(new GUIContent("모든 룸 노드 선택 [Ctrl + A]"), false, SelectAllRoomNodes);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("선택된 룸 노드 연결 끊기"), false, DeleteSelectedRoomNodeLinks);
-        menu.AddItem(new GUIContent("선택된 룸 노드 삭제"), false, DeleteSelectedRoomNodes);
+        menu.AddItem(new GUIContent("선택된 룸 노드 삭제 [Delete]"), false, DeleteSelectedRoomNodes);
 
         menu.ShowAsContext();
 	}
