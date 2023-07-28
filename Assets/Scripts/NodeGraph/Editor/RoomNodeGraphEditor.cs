@@ -13,12 +13,12 @@ public class RoomNodeGraphEditor : EditorWindow
     private Vector2 graphOffset;
     private Vector2 graphDreg;
 
-
     private RoomNodeSO currentRoomNode = null;
     private RoomNodeTypeListSO roomNodeTypeList;
+    private List<RoomNodeSO> copyRoomNodeList;
 
-	// Node Layout 값 설정
-	private const float nodeWidth = 160f;
+    // Node Layout 값 설정
+    private const float nodeWidth = 160f;
     private const float nodeHeight = 75f;
     private const int nodePadding = 25;
     private const int nodeBorder = 12;
@@ -31,6 +31,7 @@ public class RoomNodeGraphEditor : EditorWindow
     private const float gridLarge = 100f;
     private const float gridSmall = 25f;
 
+    
 
     // Custom Editor Window 생성
     [MenuItem("던전 룸 노드 그래프 에디터", menuItem = "Window/던전 에디터/던전 룸 노드 그래프 에디터")]
@@ -59,7 +60,10 @@ public class RoomNodeGraphEditor : EditorWindow
 
         // RoomNodeTypeListSO 가져오기
         roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
-	}
+
+        // 노드 복사용 구조체 생성
+        copyRoomNodeList = new List<RoomNodeSO>();
+    }
 
 	private void OnDisable()
 	{
@@ -97,7 +101,7 @@ public class RoomNodeGraphEditor : EditorWindow
 
             DrawRoomConnections();
 
-            DrawRoomNodes();
+            DrawRoomNodes(Event.current);
         }
 
         if (GUI.changed)
@@ -145,29 +149,13 @@ public class RoomNodeGraphEditor : EditorWindow
 		    currentRoomNode = IsMouseOverRoomNode(currentEvent);
         }
 
-        if (currentRoomNode == null || currentRoomNodeGraph.roomNodeToDrawLineFrom != null)
+        if (currentEvent.type == EventType.KeyDown || currentRoomNode == null || currentRoomNodeGraph.roomNodeToDrawLineFrom != null)
         {
 			ProcessRoomNodeGraphEvents(currentEvent);
 		}
         else
         {
 			currentRoomNode.ProcessEvents(currentEvent);
-        }
-
-        // 단축키
-        if (currentEvent.type == EventType.KeyDown)
-        {
-            // 모든 노드 선택
-            if (currentEvent.keyCode == KeyCode.A && currentEvent.control)
-            {
-                SelectAllRoomNodes();
-            }
-
-            // 선택된 노드 삭제
-            if (currentEvent.keyCode == KeyCode.Delete)
-            {
-                DeleteSelectedRoomNodes();
-            }
         }
     }
 
@@ -185,24 +173,27 @@ public class RoomNodeGraphEditor : EditorWindow
         return null;
     }
 
-	private void ProcessRoomNodeGraphEvents(Event currentEvent)
-	{
-		switch (currentEvent.type)
+    private void ProcessRoomNodeGraphEvents(Event currentEvent)
+    {
+        switch (currentEvent.type)
         {
-			case EventType.MouseDown:
-				ProcessMousedownEvent(currentEvent);
+            case EventType.MouseDown:
+                ProcessMousedownEvent(currentEvent);
                 break;
-			case EventType.MouseUp:
-				ProcessMouseUpEvent(currentEvent);
-				break;
-			case EventType.MouseDrag:
+            case EventType.MouseUp:
+                ProcessMouseUpEvent(currentEvent);
+                break;
+            case EventType.MouseDrag:
                 ProcessMouseDragEvent(currentEvent);
-				break;
+                break;
+            case EventType.KeyDown:
+                ProcessHotKeyEvent(currentEvent);
+                break;
 
             default:
-				break;
-		}
-	}
+                break;
+        }
+    }
 
 	private void ProcessMousedownEvent(Event currentEvent)
     {
@@ -226,6 +217,8 @@ public class RoomNodeGraphEditor : EditorWindow
         menu.AddItem(new GUIContent("모든 룸 노드 선택 [Ctrl + A]"), false, SelectAllRoomNodes);
         menu.AddSeparator("");
         menu.AddItem(new GUIContent("선택된 룸 노드 연결 끊기"), false, DeleteSelectedRoomNodeLinks);
+        menu.AddItem(new GUIContent("선택된 룸 노드 복사 [Ctrl + C]"), false, DeleteSelectedRoomNodeLinks);
+        menu.AddItem(new GUIContent("복사한 룸 노드 붙여넣기 [Ctrl + V]"), false, DeleteSelectedRoomNodeLinks);
         menu.AddItem(new GUIContent("선택된 룸 노드 삭제 [Delete]"), false, DeleteSelectedRoomNodes);
 
         menu.ShowAsContext();
@@ -312,6 +305,8 @@ public class RoomNodeGraphEditor : EditorWindow
 
             AssetDatabase.SaveAssets();
         }
+
+        ClearAllSelectedRoomNodes();
     }
 
     /// <summary>
@@ -335,6 +330,36 @@ public class RoomNodeGraphEditor : EditorWindow
                     }
                 }
             }
+        }
+    }
+
+    private void CopyRoomNodes()
+    {
+        copyRoomNodeList.Clear();
+
+        foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
+        {
+            if (roomNode.isSelected && !roomNode.roomNodeType.isEntrance)
+            {
+                copyRoomNodeList.Add(roomNode);
+            }
+        }
+
+        ClearAllSelectedRoomNodes();
+    }
+
+    private void PaseteRoomNodes(object mousePosition)
+    {
+        Vector2 temp = (Vector2)mousePosition;
+
+        for (int i = 0; i < copyRoomNodeList.Count; i++)
+        {
+            if (i != 0)
+            {
+                temp = temp + (copyRoomNodeList[i].rect.position - copyRoomNodeList[i-1].rect.position);
+            }
+
+            CreateRoomNode(temp, copyRoomNodeList[i].roomNodeType);
         }
     }
 
@@ -414,7 +439,34 @@ public class RoomNodeGraphEditor : EditorWindow
         GUI.changed = true;
     }
 
-	private void DragConnectingLine(Vector2 delta)
+    private void ProcessHotKeyEvent(Event currentEvent)
+    {
+        // 모든 노드 선택
+        if (currentEvent.keyCode == KeyCode.A && currentEvent.control)
+        {
+            SelectAllRoomNodes();
+        }
+
+        // 선택된 노드 삭제
+        if (currentEvent.keyCode == KeyCode.Delete)
+        {
+            DeleteSelectedRoomNodes();
+        }
+
+        // 선택된 노드 복사
+        if (currentEvent.keyCode == KeyCode.C && currentEvent.control)
+        {
+            CopyRoomNodes();
+        }
+
+        // 복사한 노드 붙여넣기
+        if (currentEvent.keyCode == KeyCode.V && currentEvent.control)
+        {
+            PaseteRoomNodes(currentEvent.mousePosition);
+        }
+    }
+
+    private void DragConnectingLine(Vector2 delta)
 	{
 		currentRoomNodeGraph.linePosition += delta;
 	}
@@ -473,7 +525,7 @@ public class RoomNodeGraphEditor : EditorWindow
         GUI.changed = true;
 	}
 
-	private void DrawRoomNodes()
+	private void DrawRoomNodes(Event currentEvent)
     {
         foreach (RoomNodeSO roomNode in currentRoomNodeGraph.roomNodeList)
         {

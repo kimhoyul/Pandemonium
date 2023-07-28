@@ -170,11 +170,20 @@ public class RoomNodeSO : ScriptableObject
 
 	private void ProcessLeftMouseDragEvent(Event currentEvent)
 	{
-		isLeftClickDragging = true;
+		isSelected = true;
+        isLeftClickDragging = true;
 
-		DragNode(currentEvent.delta);
-		GUI.changed = true;
-	}
+        foreach (RoomNodeSO roomNode in roomNodeGraph.roomNodeList)
+        {
+            if (roomNode != this)
+            {
+                roomNode.isSelected = false;
+            }
+        }
+
+        DragNode(currentEvent.delta);
+        GUI.changed = true;
+    }
 
 	public void DragNode(Vector2 delta)
 	{
