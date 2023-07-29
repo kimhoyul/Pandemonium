@@ -214,9 +214,9 @@ public class RoomNodeGraphEditor : EditorWindow
 
         menu.AddItem(new GUIContent("룸 노드 생성"), false, CreateRoomNode, mousePosition);
         menu.AddSeparator("");
-        menu.AddItem(new GUIContent("모든 룸 노드 선택 [Ctrl + A]"), false, SelectAllRoomNodes);
-        menu.AddSeparator("");
         menu.AddItem(new GUIContent("선택된 룸 노드 연결 끊기"), false, DeleteSelectedRoomNodeLinks);
+        menu.AddSeparator("");
+        menu.AddItem(new GUIContent("모든 룸 노드 선택 [Ctrl + A]"), false, SelectAllRoomNodes);
         menu.AddItem(new GUIContent("선택된 룸 노드 복사 [Ctrl + C]"), false, DeleteSelectedRoomNodeLinks);
         menu.AddItem(new GUIContent("복사한 룸 노드 붙여넣기 [Ctrl + V]"), false, DeleteSelectedRoomNodeLinks);
         menu.AddItem(new GUIContent("선택된 룸 노드 삭제 [Delete]"), false, DeleteSelectedRoomNodes);
