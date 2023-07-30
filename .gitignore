@@ -74,6 +74,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/[Cc]ourseAssets/
+/[Aa]ssets/[Gg]ameAssets/
+
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
 Assets/CourseAssets.meta
