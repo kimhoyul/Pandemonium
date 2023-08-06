@@ -1,36 +1,36 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-[CreateAssetMenu(fileName = "RoomNodeType_", menuName = "Scriptable Objects/´øÀü/´øÀü ·ë ³ëµå Å¸ÀÔ")]
+[CreateAssetMenu(fileName = "RoomNodeType_", menuName = "Scriptable Objects/ë˜ì „/ë˜ì „ ë£¸ ë…¸ë“œ íƒ€ì…")]
 public class RoomNodeTypeSO : ScriptableObject
 {
 	public string roomNodeTypeName;
 
 	#region Header
-	[Header("Node Graph Editor¿¡ Ç¥½ÃµÇ¾î¾ß ÇÏ´Â RoomNodeTypes¿¡¸¸ ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Node Graph Editorì— í‘œì‹œë˜ì–´ì•¼ í•˜ëŠ” RoomNodeTypesì—ë§Œ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool displayInNodeGraphEditor = true;
 	#region Header
-	[Header("TypeÀÌ CorridorÀÌ¸é ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Typeì´ Corridorì´ë©´ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool isCorridor;
 	#region Header
-	[Header("TypeÀÌ CorridorNSÀÌ¸é ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Typeì´ CorridorNSì´ë©´ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool isCorridorNS;
 	#region Header
-	[Header("TypeÀÌ CorridorEWÀÌ¸é ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Typeì´ CorridorEWì´ë©´ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool isCorridorEW;
 	#region Header
-	[Header("TypeÀÌ EntranceÀÌ¸é ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Typeì´ Entranceì´ë©´ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool isEntrance;
 	#region Header
-	[Header("TypeÀÌ Boss RoomÀÌ¸é ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Typeì´ Boss Roomì´ë©´ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool isBossRoom;
 	#region Header
-	[Header("TypeÀÌ NoneÀÌ¸é ÇÃ·¡±×¸¦ ÁöÁ¤ÇÕ´Ï´Ù.")]
+	[Header("Typeì´ Noneì´ë©´ í”Œë˜ê·¸ë¥¼ ì§€ì •í•©ë‹ˆë‹¤.")]
 	#endregion Header
 	public bool isNone;
 

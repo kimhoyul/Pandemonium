@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RoomNodeGraph", menuName = "Scriptable Objects/´øÀü/´øÀü ·ë ³ëµå ±×·¡ÇÁ")]
+[CreateAssetMenu(fileName = "RoomNodeGraph", menuName = "Scriptable Objects/ë˜ì „/ë˜ì „ ë£¸ ë…¸ë“œ ê·¸ë˜í”„")]
 public class RoomNodeGraphSO : ScriptableObject
 {
 	[HideInInspector] public RoomNodeTypeListSO roomNodeTypeList;

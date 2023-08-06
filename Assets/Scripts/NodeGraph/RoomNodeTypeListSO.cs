@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RoomNodeTypeListSO", menuName = "Scriptable Objects/´øÀü/´øÀü ·ë ³ëµå Å¸ÀÔ ¸®½ºÆ®")]
+[CreateAssetMenu(fileName = "RoomNodeTypeListSO", menuName = "Scriptable Objects/ë˜ì „/ë˜ì „ ë£¸ ë…¸ë“œ íƒ€ì… ë¦¬ìŠ¤íŠ¸")]
 public class RoomNodeTypeListSO : ScriptableObject
 {
 	#region Header ROOM NODE TYPE LIST
