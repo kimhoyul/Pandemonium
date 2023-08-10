@@ -7,7 +7,7 @@ public static class HelperUtilities
 	{
 		if (string.IsNullOrEmpty(stringToCheck))
 		{
-			Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> ÀÇ <b><color=yellow>" + fieldName + "</color></b>°¡ ºñ¾îÀÖ½À´Ï´Ù.");
+			Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> ì˜ <b><color=yellow>" + fieldName + "</color></b>ê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.");
 			return false;
 		}
 		return true;
@@ -18,11 +18,17 @@ public static class HelperUtilities
 		bool error = false;
 		int count = 0;
 
+		if (enumerableObjectToCheck == null)
+		{
+            Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable Objectì˜ <b><color=yellow>" + fieldName + "</color></b>ê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.");
+            return true;
+        }
+
 		foreach (var item in enumerableObjectToCheck)
 		{
 			if (item == null)
 			{
-				Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable ObjectÀÇ <b><color=yellow>" + fieldName + "</color></b>¿¡ Null °ªÀÌ ÀÖ½À´Ï´Ù.");
+				Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable Objectì˜ <b><color=yellow>" + fieldName + "</color></b>ì— Null ê°’ì´ ìˆìŠµë‹ˆë‹¤.");
 				error = true;
 			}
 			else
@@ -33,7 +39,7 @@ public static class HelperUtilities
 
 		if (count == 0)
 		{
-			Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable ObjectÀÇ <b><color=yellow>" + fieldName + "</color></b>°¡ ºñ¾îÀÖ½À´Ï´Ù.");
+			Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable Objectì˜ <b><color=yellow>" + fieldName + "</color></b>ê°€ ë¹„ì–´ìˆìŠµë‹ˆë‹¤.");
 			error = true;
 		}
 

@@ -418,8 +418,8 @@ MonoBehaviour:
   roomNodeTypeList: {fileID: 11400000, guid: 647be3aaa71dec94ea2692e4b20dacaf, type: 2}
   rect:
     serializedVersion: 2
-    x: 679
-    y: 185
+    x: 663
+    y: 175
     width: 160
     height: 75
   isLeftClickDragging: 0
@@ -501,7 +501,7 @@ MonoBehaviour:
   roomNodeTypeList: {fileID: 11400000, guid: 647be3aaa71dec94ea2692e4b20dacaf, type: 2}
   rect:
     serializedVersion: 2
-    x: 665
+    x: 662
     y: 279
     width: 160
     height: 75

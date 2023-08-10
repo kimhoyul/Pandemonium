@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.Collections.Generic;
-using System;
 
 public class RoomNodeGraphEditor : EditorWindow
 {
