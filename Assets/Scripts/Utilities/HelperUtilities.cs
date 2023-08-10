@@ -20,7 +20,7 @@ public static class HelperUtilities
 
 		if (enumerableObjectToCheck == null)
 		{
-            Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable Object의 <b><color=yellow>" + fieldName + "</color></b>가 비어있습니다.");
+            Debug.Log($"<b><color=yellow>{thisObject.name}</color></b> 의 <b><color=yellow>{fieldName}</color></b>가 비어있습니다.");
             return true;
         }
 
@@ -39,8 +39,8 @@ public static class HelperUtilities
 
 		if (count == 0)
 		{
-			Debug.Log("<b><color=yellow>" + thisObject.name.ToString() + "</color></b> Scriptable Object의 <b><color=yellow>" + fieldName + "</color></b>가 비어있습니다.");
-			error = true;
+            Debug.Log($"<b><color=yellow>{thisObject.name}</color></b> 의 <b><color=yellow>{fieldName}</color></b>가 비어있습니다.");
+            error = true;
 		}
 
 		return error;
