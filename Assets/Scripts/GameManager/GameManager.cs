@@ -45,7 +45,12 @@ public class GameManager : SingletonMonobehaviour<GameManager>
 
     private void PlayDungeonLevel(int dungeonLevelListIndex)
     {
+        bool dungeonBuiltSucessfully = DungeonBuilder.Instance.GenerateDungeon(dungeonLevelList[dungeonLevelListIndex]);
 
+        if (!dungeonBuiltSucessfully)
+        {
+            Debug.LogError("지정된 방과 노드 그래프에서 던전을 구축할 수 없습니다.");
+        }
     }
 
     #region Validation

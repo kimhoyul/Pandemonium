@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RoomNodeGraph", menuName = "Scriptable Objects/던전/던전 룸 노드 그래프")]
@@ -24,6 +24,20 @@ public class RoomNodeGraphSO : ScriptableObject
 		}
 	}
 
+    // 일치하는 룸 노드 타입 검색
+    public RoomNodeSO GetRoomNode(RoomNodeTypeSO roomNodeType)
+	{
+        foreach (RoomNodeSO node in roomNodeList)
+		{
+            if (node.roomNodeType == roomNodeType)
+			{
+                return node;
+            }
+        }
+        return null;
+    }
+
+	// 일치하는 룸 노드 ID 검색
 	public RoomNodeSO GetRoomNode(string roomNodeID)
 	{
 		if (roomNodeDictionary.TryGetValue(roomNodeID, out RoomNodeSO roomNode))
@@ -33,13 +47,18 @@ public class RoomNodeGraphSO : ScriptableObject
 		return null;
 	}
 
+	public IEnumerable<RoomNodeSO> GetChildRoomNodes(RoomNodeSO parentRoomNode)
+	{
+		foreach (string childNodeID in parentRoomNode.childRoomNodeIDList)
+		{
+			yield return GetRoomNode(childNodeID);
+        }
+    }
+
 	#region Editor Code
-
 #if UNITY_EDITOR
-
 	[HideInInspector] public RoomNodeSO roomNodeToDrawLineFrom = null;
 	[HideInInspector] public Vector2 linePosition;
-
 	public void OnValidate()
 	{
 		LoadRoomNodeDictionary();
@@ -50,8 +69,6 @@ public class RoomNodeGraphSO : ScriptableObject
 		roomNodeToDrawLineFrom = node;
 		linePosition = position;
 	}
-
 #endif
-
 	#endregion Editor Code
 }

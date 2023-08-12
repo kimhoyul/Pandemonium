@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94048c2b3216b9d439e0ba60d10f72d3, type: 3}
   m_Name: DungeonLevel_Level3
   m_EditorClassIdentifier: 
-  levelName: Dark Doom
+  levelName: The Spirit Catacombs
   roomTemplateList:
   - {fileID: 11400000, guid: aeaa238dda2b934409291731e7646e39, type: 2}
   - {fileID: 11400000, guid: 5e10298487db4a548a9e425ea037c915, type: 2}

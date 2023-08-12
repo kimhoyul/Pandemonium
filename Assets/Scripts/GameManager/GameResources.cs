@@ -21,9 +21,13 @@ public class GameResources : MonoBehaviour
 	#region Header DUNGEON
 	[Space(10)]
 	[Header("DUNGEON")]
-	#endregion
-	#region Tooltip
-	[Tooltip("Populate with the dungeon RoomNodeTypeListSO")]
+	[Tooltip("RoomNodeTypeListSO 로 채우세요")]
 	#endregion
 	public RoomNodeTypeListSO roomNodeTypeList;
+
+    #region Header MATERIALS
+    [Space(10)]
+    [Header("MATERIALS")]
+    #endregion
+	public Material dimmedMaterial;
 }

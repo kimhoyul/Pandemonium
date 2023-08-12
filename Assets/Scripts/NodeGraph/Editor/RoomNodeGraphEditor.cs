@@ -30,9 +30,6 @@ public class RoomNodeGraphEditor : EditorWindow
     private const float gridLarge = 100f;
     private const float gridSmall = 25f;
 
-    
-
-    // Custom Editor Window 생성
     [MenuItem("던전 룸 노드 그래프 에디터", menuItem = "Window/던전 에디터/던전 룸 노드 그래프 에디터")]
     private static void OpenWindow()
     {
