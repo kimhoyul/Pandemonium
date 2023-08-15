@@ -13,9 +13,7 @@ public class RoomNodeSO : ScriptableObject
 	[HideInInspector] public RoomNodeTypeListSO roomNodeTypeList;
 
 	#region Editor Code
-
 #if UNITY_EDITOR
-
 	[HideInInspector] public Rect rect;
 	[HideInInspector] public bool isLeftClickDragging = false;
 	[HideInInspector] public bool isSelected = false;
@@ -35,7 +33,7 @@ public class RoomNodeSO : ScriptableObject
 	{
 		GUILayout.BeginArea(rect, NodeStyle);
 
-		// µå·Ó¹Ú½ºÀÇ º¯È­¸¦ °¨Áö ½ÃÀÛ
+		// ë“œë¡­ë°•ìŠ¤ì˜ ë³€í™”ë¥¼ ê°ì§€ ì‹œì‘
 		EditorGUI.BeginChangeCheck();
 
 		if (parentRoomNodeIDList.Count > 0 || roomNodeType.isEntrance)
@@ -70,15 +68,15 @@ public class RoomNodeSO : ScriptableObject
             }
 		}
 
-		// µå·Ó¹Ú½ºÀÇ º¯È­¸¦ °¨Áö Á¾·á
+		// ë“œë¡­ë°•ìŠ¤ì˜ ë³€í™”ë¥¼ ê°ì§€ ì¢…ë£Œ
 		if (EditorGUI.EndChangeCheck())
 			EditorUtility.SetDirty(this);
 
 		GUILayout.EndArea();
 	}
 
-	// NodeGraphEditor¿¡¼­ Ç¥½ÃµÇ¾î¾ß ÇÏ´Â RoomNodeTypes¸¦ °¡Á®¿È
-	// RoomNodeTypeListSOÀÇ displayInNodeGraphEditor°¡ trueÀÎ RoomNodeTypeSO¸¸ °¡Á®¿È
+	// NodeGraphEditorì—ì„œ í‘œì‹œë˜ì–´ì•¼ í•˜ëŠ” RoomNodeTypesë¥¼ ê°€ì ¸ì˜´
+	// RoomNodeTypeListSOì˜ displayInNodeGraphEditorê°€ trueì¸ RoomNodeTypeSOë§Œ ê°€ì ¸ì˜´
 	private string[] GetRoomNodeTypesToDisplay()
 	{
 		string[] roomArray = new string[roomNodeTypeList.list.Count];
@@ -208,85 +206,85 @@ public class RoomNodeSO : ScriptableObject
 
 		foreach (RoomNodeSO roomNode in roomNodeGraph.roomNodeList)
 		{
-			// º¸½º¸§ÀÌ¸é¼­ ÀÌ¹Ì ¿¬°áµÈ ºÎ¸ğ°¡ ÀÖ´ÂÁö È®ÀÎ
+			// ë³´ìŠ¤ë¦„ì´ë©´ì„œ ì´ë¯¸ ì—°ê²°ëœ ë¶€ëª¨ê°€ ìˆëŠ”ì§€ í™•ì¸
 			if (roomNode.roomNodeType.isBossRoom && roomNode.parentRoomNodeIDList.Count > 0)
 				isConnectedBossNodeAlready = true;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© º¸½º·ëÀÎÁö ±×¸®°í ÀÌ ÀÌÀü¿¡ ¿¬°áµÈ º¸½º·ëÀÌ ÀÖ´ÂÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ ë³´ìŠ¤ë£¸ì¸ì§€ ê·¸ë¦¬ê³  ì´ ì´ì „ì— ì—°ê²°ëœ ë³´ìŠ¤ë£¸ì´ ìˆëŠ”ì§€ í™•ì¸
 		if (roomNodeGraph.GetRoomNode(childID).roomNodeType.isBossRoom && isConnectedBossNodeAlready)
 		{
-			Debug.Log("Boss RoomÀº ÇÏ³ª¸¸ ¿¬°áÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+			Debug.Log("Boss Roomì€ í•˜ë‚˜ë§Œ ì—°ê²°í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© NoneÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ Noneì¸ì§€ í™•ì¸
 		if (roomNodeGraph.GetRoomNode(childID).roomNodeType.isNone)
 		{
-			Debug.Log("Å¸ÀÔÀ» ÁöÁ¤ÇÏÁö ¾ÊÀº ¹æ(None)Àº ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("íƒ€ì…ì„ ì§€ì •í•˜ì§€ ì•Šì€ ë°©(None)ì€ ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÀÌ¹Ì ¿¬°áµÈ ÀÚ½ÄÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ ì´ë¯¸ ì—°ê²°ëœ ìì‹ì¸ì§€ í™•ì¸
 		if (childRoomNodeIDList.Contains(childID))
 		{
-			Debug.Log("ÀÌ¹Ì ¿¬°áµÈ ÀÚ½Ä ³ëµå ÀÔ´Ï´Ù.");
+			Debug.Log("ì´ë¯¸ ì—°ê²°ëœ ìì‹ ë…¸ë“œ ì…ë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÀÚ±â ÀÚ½ÅÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ ìê¸° ìì‹ ì¸ì§€ í™•ì¸
 		if (id == childID)
 		{
-			Debug.Log("ÀÚ±â ÀÚ½Å°ú´Â ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("ìê¸° ìì‹ ê³¼ëŠ” ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÀÌ¹Ì ¿¬°áµÈ ºÎ¸ğÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ ì´ë¯¸ ì—°ê²°ëœ ë¶€ëª¨ì¸ì§€ í™•ì¸
 		if (parentRoomNodeIDList.Contains(childID))
 		{
-			Debug.Log("ÀÌ¹Ì ¿¬°áµÈ ºÎ¸ğ ³ëµå ÀÔ´Ï´Ù.");
+			Debug.Log("ì´ë¯¸ ì—°ê²°ëœ ë¶€ëª¨ ë…¸ë“œ ì…ë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÀÌ¹Ì ´Ù¸¥ ºÎ¸ğ¿Í ¿¬°áµÈ ³ëµåÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ ì´ë¯¸ ë‹¤ë¥¸ ë¶€ëª¨ì™€ ì—°ê²°ëœ ë…¸ë“œì¸ì§€ í™•ì¸
 		if (roomNodeGraph.GetRoomNode(childID).parentRoomNodeIDList.Count > 0)
 		{
-			Debug.Log("´Ù¸¥ ºÎ¸ğ¿¡ ¿¬°áµÈ ³ëµå´Â ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("ë‹¤ë¥¸ ë¶€ëª¨ì— ì—°ê²°ëœ ë…¸ë“œëŠ” ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÇöÀç ³ëµåÀÇ Å¸ÀÔÀÌ º¹µµÀÌ°í ¿¬°áÇÏ·Á´Â Å¸ÀÔÀÌ º¹µµÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ í˜„ì¬ ë…¸ë“œì˜ íƒ€ì…ì´ ë³µë„ì´ê³  ì—°ê²°í•˜ë ¤ëŠ” íƒ€ì…ì´ ë³µë„ì¸ì§€ í™•ì¸
 		if (roomNodeGraph.GetRoomNode(childID).roomNodeType.isCorridor && roomNodeType.isCorridor)
 		{
-			Debug.Log("Corridor ³¢¸®´Â ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("Corridor ë¼ë¦¬ëŠ” ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÇöÀç ³ëµåÀÇ Å¸ÀÔÀÌ RoomÀÌ°í ¿¬°áÇÏ·Á´Â Å¸ÀÔÀÌ RoomÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ í˜„ì¬ ë…¸ë“œì˜ íƒ€ì…ì´ Roomì´ê³  ì—°ê²°í•˜ë ¤ëŠ” íƒ€ì…ì´ Roomì¸ì§€ í™•ì¸
 		if (!roomNodeGraph.GetRoomNode(childID).roomNodeType.isCorridor && !roomNodeType.isCorridor)
 		{
-			Debug.Log("Room ³¢¸®´Â ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("Room ë¼ë¦¬ëŠ” ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÇöÀç ¿¬°áÇÏ·Á´Â ³ëµåÀÇ Å¸ÀÔÀÌ º¹µµÀÌ°í ¿¬°áµÈ º¹µµÀÇ °³¼ö°¡ MaxChildCorridors¸¦ ÃÊ°úÇÏ´ÂÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ í˜„ì¬ ì—°ê²°í•˜ë ¤ëŠ” ë…¸ë“œì˜ íƒ€ì…ì´ ë³µë„ì´ê³  ì—°ê²°ëœ ë³µë„ì˜ ê°œìˆ˜ê°€ MaxChildCorridorsë¥¼ ì´ˆê³¼í•˜ëŠ”ì§€ í™•ì¸
 		if (roomNodeGraph.GetRoomNode(childID).roomNodeType.isCorridor && childRoomNodeIDList.Count >= Settings.MaxChildCorridors)
 		{
-			Debug.Log("MaxChildCorridors¸¦ ÃÊ°úÇÏ¿© ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("MaxChildCorridorsë¥¼ ì´ˆê³¼í•˜ì—¬ ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÇöÀç ¿¬°áÇÏ·Á´Â ³ëµåÀÇ Å¸ÀÔÀÌ ½ÃÀÛÁöÁ¡ÀÎÁö È®ÀÎ
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ í˜„ì¬ ì—°ê²°í•˜ë ¤ëŠ” ë…¸ë“œì˜ íƒ€ì…ì´ ì‹œì‘ì§€ì ì¸ì§€ í™•ì¸
 		if (roomNodeGraph.GetRoomNode(childID).roomNodeType.isEntrance)
 		{
-			Debug.Log("Entrance ´Â ÃÖ»óÀ§ ºÎ¸ğ ³ëµå ÀÌ±â¿¡ ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			Debug.Log("Entrance ëŠ” ìµœìƒìœ„ ë¶€ëª¨ ë…¸ë“œ ì´ê¸°ì— ì—°ê²°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
-		// child ³ëµåÀÇ ID·Î Á¶È¸ÇÏ¿© ÇöÀç ¿¬°áÇÏ·Á´Â ³ëµåÀÇ Å¸ÀÔÀÌ º¹µµ°¡ ¾Æ´Ï°í ÀÌ¹Ì Â÷ÀÏµå ³ëµå¸¦ °®°í ÀÖÀ» °æ¿ì
+		// child ë…¸ë“œì˜ IDë¡œ ì¡°íšŒí•˜ì—¬ í˜„ì¬ ì—°ê²°í•˜ë ¤ëŠ” ë…¸ë“œì˜ íƒ€ì…ì´ ë³µë„ê°€ ì•„ë‹ˆê³  ì´ë¯¸ ì°¨ì¼ë“œ ë…¸ë“œë¥¼ ê°–ê³  ìˆì„ ê²½ìš°
 		if (!roomNodeGraph.GetRoomNode(childID).roomNodeType.isCorridor && childRoomNodeIDList.Count > 0)
 		{
-			Debug.Log("ÀÌ¹Ì ¿¬°áµÈ Room ÀÌ ÀÖ½À´Ï´Ù.");
+			Debug.Log("ì´ë¯¸ ì—°ê²°ëœ Room ì´ ìˆìŠµë‹ˆë‹¤.");
 			return false;
 		}
 
@@ -294,7 +292,7 @@ public class RoomNodeSO : ScriptableObject
 	}
 
 	/// <summary>
-	/// ÇöÀç ³ëµå¿¡ ºÎ¸ğ ³ëµå¸¦ Ãß°¡.
+	/// í˜„ì¬ ë…¸ë“œì— ë¶€ëª¨ ë…¸ë“œë¥¼ ì¶”ê°€.
 	/// </summary>
 	public bool AddParentRoomNodeIDToRoomNode(string parentID)
 	{
@@ -303,7 +301,7 @@ public class RoomNodeSO : ScriptableObject
 	}
 
 	/// <summary>
-	/// ÇöÀç ³ëµå¿¡¼­ ÀÚ½Ä ³ëµå¸¦ Á¦°Å.
+	/// í˜„ì¬ ë…¸ë“œì—ì„œ ìì‹ ë…¸ë“œë¥¼ ì œê±°.
 	/// </summary>
 	public bool RemoveChildRoomNodeIDFromRoomNode(string childID)
 	{
@@ -316,7 +314,7 @@ public class RoomNodeSO : ScriptableObject
 	}
 
     /// <summary>
-    /// ÇöÀç ³ëµå¿¡¼­ ºÎ¸ğ ³ëµå¸¦ Á¦°Å.
+    /// í˜„ì¬ ë…¸ë“œì—ì„œ ë¶€ëª¨ ë…¸ë“œë¥¼ ì œê±°.
     /// </summary>
     public bool RemoveParentRoomNodeIDFromRoomNode(string parentID)
     {
@@ -327,8 +325,6 @@ public class RoomNodeSO : ScriptableObject
         }
         return false;
     }
-
 #endif
-
     #endregion Editor Code
 }
