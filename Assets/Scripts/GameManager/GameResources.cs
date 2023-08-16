@@ -25,6 +25,13 @@ public class GameResources : MonoBehaviour
 	#endregion
 	public RoomNodeTypeListSO roomNodeTypeList;
 
+    #region Header PLAYER
+    [Space(10)]
+    [Header("PLAYER")]
+    [Tooltip("현재 플레이어 Scriptable Object - 장면 간에 현재 플레이어를 참조하는 데 사용됩니다.")]
+    #endregion
+    public CurrentPlayerSO currentPlayer;
+
     #region Header MATERIALS
     [Space(10)]
     [Header("MATERIALS")]
