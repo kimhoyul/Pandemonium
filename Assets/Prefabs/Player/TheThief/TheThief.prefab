@@ -40,6 +40,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6fb0b58f590fd664d86c37f5166ee363, type: 3}
     - target: {fileID: 1847816388232075509, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1847816388232075509, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -51,6 +55,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2474475477204065208, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474475477204065208, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2474475477280082020, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -58,6 +70,10 @@ PrefabInstance:
     - target: {fileID: 2474475477280082020, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474475477819593260, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2474475478601975809, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_Name
@@ -115,6 +131,18 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 8129eddd7a0d49a47b4b510c3f9e3b20, type: 2}
+    - target: {fileID: 2474475478601975837, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474475478601975837, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.372
+      objectReference: {fileID: 0}
+    - target: {fileID: 2474475478601975838, guid: d9626f687a169ff40b9790ae80067770, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2474475478601975838, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_Offset.y
       value: 0
