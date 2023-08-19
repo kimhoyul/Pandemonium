@@ -18,31 +18,41 @@ public class RoomNodeSO : ScriptableObject
 	[HideInInspector] public bool isLeftClickDragging = false;
 	[HideInInspector] public bool isSelected = false;
 
-	public void Initialise(Rect rect, RoomNodeGraphSO nodeGraph, RoomNodeTypeSO roomNodeType)
+	public void initialize(Rect rect, RoomNodeGraphSO nodeGraph, RoomNodeTypeSO roomNodeType)
 	{
 		this.rect = rect;
-		this.id = Guid.NewGuid().ToString();
+        this.id = Guid.NewGuid().ToString();
 		this.name = "RoomNode";
 		this.roomNodeGraph = nodeGraph;
 		this.roomNodeType = roomNodeType;
 
-		roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
+        roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
 	}
 
 	public void Draw(GUIStyle NodeStyle)
 	{
-		GUILayout.BeginArea(rect, NodeStyle);
+        GUILayout.BeginArea(rect, NodeStyle);
 
-		// 드롭박스의 변화를 감지 시작
-		EditorGUI.BeginChangeCheck();
+        // RoomType.isChestEoom 글자색 변경
+        if (roomNodeType.isChestRoom)
+        {
+            GUI.contentColor = Color.black;
+        }
+        else
+        {
+            GUI.contentColor = Color.white;
+        }
 
-		if (parentRoomNodeIDList.Count > 0 || roomNodeType.isEntrance)
+        // 드롭박스의 변화를 감지 시작
+        EditorGUI.BeginChangeCheck();
+
+        if (parentRoomNodeIDList.Count > 0 || roomNodeType.isEntrance)
 		{
 			EditorGUILayout.LabelField(roomNodeType.roomNodeTypeName);
 		}
 		else
 		{
-			int selected = roomNodeTypeList.list.FindIndex(x => x == roomNodeType);
+			int selected = roomNodeTypeList.list.FindIndex(type => type == roomNodeType);
 
 			int selection = EditorGUILayout.Popup("", selected, GetRoomNodeTypesToDisplay());
 

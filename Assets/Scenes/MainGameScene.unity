@@ -356,8 +356,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.9997735
-    height: 0.9995471
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -704,7 +704,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ff9975e712363cf4fb7985bc026152ab, type: 2}
   - {fileID: 11400000, guid: eb9f6748adf6977458681fd0459ecf0d, type: 2}
   - {fileID: 11400000, guid: 1da1fd1ba32fe09419586dfe3cce0cb3, type: 2}
-  currentDungeonLevelListIndex: 0
+  currentDungeonLevelListIndex: 5
   gameState: 0
 --- !u!4 &1791812256
 Transform:

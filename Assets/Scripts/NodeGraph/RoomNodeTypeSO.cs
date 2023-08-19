@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "RoomNodeType_", menuName = "Scriptable Objects/던전/던전 룸 노드 타입")]
 public class RoomNodeTypeSO : ScriptableObject
@@ -25,8 +25,12 @@ public class RoomNodeTypeSO : ScriptableObject
 	[Header("Type이 Entrance이면 플래그를 지정합니다.")]
 	#endregion Header
 	public bool isEntrance;
-	#region Header
-	[Header("Type이 Boss Room이면 플래그를 지정합니다.")]
+    #region Header
+    [Header("Type이 Chest Room이면 플래그를 지정합니다.")]
+    #endregion Header
+    public bool isChestRoom;
+    #region Header
+    [Header("Type이 Boss Room이면 플래그를 지정합니다.")]
 	#endregion Header
 	public bool isBossRoom;
 	#region Header
