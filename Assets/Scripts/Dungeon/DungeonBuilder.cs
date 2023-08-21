@@ -27,7 +27,7 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
 
     private void LoadRoomNodeTypeList()
     {
-        roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
+        roomNodeTypeList = GameResources.Instance.typeList;
     }
 
     public bool GenerateDungeon(DungeonLevelSO currentDungeonLevel)
@@ -401,10 +401,12 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
         room.childRoomIDList = CopyStringList(roomNode.childRoomNodeIDList);
         room.doorwayList = CopyDoorwayList(roomTemplate.doorwayList);
 
-        if (roomNode.parentRoomNodeIDList.Count == 0)
+        if (roomNode.parentRoomNodeIDList.Count == 0) // Entrance Room
         {
             room.parentRoomID = "";
             room.isPreviouslyVisited = true;
+
+            GameManager.Instance.SetCurrentRoom(room);
         }
         else
         {

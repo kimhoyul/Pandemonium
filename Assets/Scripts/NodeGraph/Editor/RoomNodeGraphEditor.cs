@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 
 public class RoomNodeGraphEditor : EditorWindow
 {
@@ -57,7 +56,7 @@ public class RoomNodeGraphEditor : EditorWindow
         guiStyles.Initialize();
 
         // RoomNodeTypeListSO 가져오기
-        roomNodeTypeList = GameResources.Instance.roomNodeTypeList;
+        roomNodeTypeList = GameResources.Instance.typeList;
 
         // 노드 복사용 구조체 생성
         copyRoomNodeList = new List<RoomNodeSO>();
