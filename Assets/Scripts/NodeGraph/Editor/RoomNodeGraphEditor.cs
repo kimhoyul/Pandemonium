@@ -56,7 +56,7 @@ public class RoomNodeGraphEditor : EditorWindow
         guiStyles.Initialize();
 
         // RoomNodeTypeListSO 가져오기
-        roomNodeTypeList = GameResources.Instance.typeList;
+        roomNodeTypeList = GameResources.Instance.typeListSO;
 
         // 노드 복사용 구조체 생성
         copyRoomNodeList = new List<RoomNodeSO>();

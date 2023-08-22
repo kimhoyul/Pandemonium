@@ -23,7 +23,7 @@ public class GameResources : MonoBehaviour
 	[Header("DUNGEON")]
 	[Tooltip("RoomNodeTypeListSO 로 채우세요")]
 	#endregion
-	public RoomNodeTypeListSO typeList;
+	public RoomNodeTypeListSO typeListSO;
 
     #region Header PLAYER
     [Space(10)]

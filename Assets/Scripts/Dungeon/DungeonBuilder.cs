@@ -25,9 +25,9 @@ public class DungeonBuilder : SingletonMonobehaviour<DungeonBuilder>
 
     }
 
-    private void LoadRoomNodeTypeList()
+	private void LoadRoomNodeTypeList()
     {
-        roomNodeTypeList = GameResources.Instance.typeList;
+        roomNodeTypeList = GameResources.Instance.typeListSO;
     }
 
     public bool GenerateDungeon(DungeonLevelSO currentDungeonLevel)

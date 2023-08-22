@@ -4,6 +4,74 @@ using UnityEngine.Assertions.Must;
 
 public static class HelperUtilities
 {
+	public static Camera mainCamera;
+
+	// 마우스의 월드 포지션 반환
+	public static Vector3 GetMouseWorldPosition()
+	{
+		if (mainCamera == null)
+		{
+			mainCamera = Camera.main;
+		}
+
+		Vector3 mouseScreenPosition = Input.mousePosition;
+
+		// 마우스 위치를 화면 크기에 맞게 조절
+		mouseScreenPosition.x = Mathf.Clamp(mouseScreenPosition.x, 0f, Screen.width);
+		mouseScreenPosition.y = Mathf.Clamp(mouseScreenPosition.y, 0f, Screen.height);
+
+		Vector3 worldPosition = mainCamera.ScreenToWorldPoint(mouseScreenPosition);
+
+		worldPosition.z = 0f;
+
+		return worldPosition;
+	}
+
+	// 방향 벡터로부터 각도를 도 단위로 가져옴
+	public static float GetAngleFromVector(Vector3 vector)
+	{
+		float radians = Mathf.Atan2(vector.y, vector.x);
+		float degrees = radians * Mathf.Rad2Deg;
+
+		return degrees;
+	}
+
+	// 각도 에서 AimDirection 열거형 값 가져오기
+	public static AimDirection GetAimDirection(float angleDegrees)
+	{
+		AimDirection aimDirection;
+
+		if (angleDegrees >= 22f && angleDegrees < 67f)
+		{
+			aimDirection = AimDirection.UpRight;
+		}
+		else if (angleDegrees > 67f && angleDegrees < 112f)
+		{
+			aimDirection = AimDirection.Up;
+		}
+		else if (angleDegrees > 112f && angleDegrees < 158f)
+		{
+			aimDirection = AimDirection.UpLeft;
+		}
+		else if ((angleDegrees <= 180f && angleDegrees > 158f) || (angleDegrees > -180f && angleDegrees <= -135f))
+		{
+			aimDirection = AimDirection.Left;
+		}
+		else if (angleDegrees > -135f && angleDegrees <= -45f)
+		{
+			aimDirection = AimDirection.Down;
+		}
+		else if ((angleDegrees > -45f && angleDegrees <= 0f) || (angleDegrees > 0f && angleDegrees < 22f))
+		{
+			aimDirection = AimDirection.Right;
+		}
+		else
+		{
+			aimDirection = AimDirection.Right;
+		}
+
+		return aimDirection;
+	}
 
 	// 빈 스트링 값이 있는지 확인
 	public static bool ValidateCheckEmptyString(Object thisObject, string fieldName, string stringToCheck)

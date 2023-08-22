@@ -26,7 +26,7 @@ public class RoomNodeSO : ScriptableObject
 		this.roomNodeGraph = nodeGraph;
 		this.roomNodeType = roomNodeType;
 
-        roomNodeTypeList = GameResources.Instance.typeList;
+        roomNodeTypeList = GameResources.Instance.typeListSO;
 	}
 
 	public void Draw(GUIStyle NodeStyle)

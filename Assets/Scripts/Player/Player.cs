@@ -1,9 +1,13 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+/*
 #region REQUIRE COMPONENTS
 [RequireComponent(typeof(Health))]
+[RequireComponent(typeof(IdleEvent))]
+[RequireComponent(typeof(Idle))]
+[RequireComponent(typeof(AimWeaponEvent))]
+[RequireComponent(typeof(AimWeapon))]
 [RequireComponent(typeof(SortingGroup))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
@@ -12,16 +16,22 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(Rigidbody2D))]
 [DisallowMultipleComponent]
 #endregion
+*/
+
 public class Player : MonoBehaviour
 {
     [HideInInspector] public PlayerDetailsSO playerDetails;
     [HideInInspector] public Health health;
+    [HideInInspector] public IdleEvent idleEvent;
+    [HideInInspector] public AimWeaponEvent AimWeaponEvent;
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public Animator animator;
 
     private void Awake()
     {
         health = GetComponent<Health>();
+        idleEvent = GetComponent<IdleEvent>();
+        AimWeaponEvent = GetComponent<AimWeaponEvent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
