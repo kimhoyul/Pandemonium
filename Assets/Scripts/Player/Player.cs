@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-/*
 #region REQUIRE COMPONENTS
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(PlayerControl))]
@@ -18,7 +17,6 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(Rigidbody2D))]
 [DisallowMultipleComponent]
 #endregion
-*/
 
 public class Player : MonoBehaviour
 {
