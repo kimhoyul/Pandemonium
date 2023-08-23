@@ -16,14 +16,14 @@ public class AnimatePlayer : MonoBehaviour
 	{
 		player.idleEvent.OnIdle += IdleEvent_OnIdle;
 
-		player.AimWeaponEvent.OnWeaponAIm += AimWeaponEvent_OnWeaponAim;
+		player.aimWeaponEvent.OnWeaponAIm += AimWeaponEvent_OnWeaponAim;
 	}
 
 	private void OnDisable()
 	{
 		player.idleEvent.OnIdle -= IdleEvent_OnIdle;
 
-		player.AimWeaponEvent.OnWeaponAIm -= AimWeaponEvent_OnWeaponAim;
+		player.aimWeaponEvent.OnWeaponAIm -= AimWeaponEvent_OnWeaponAim;
 	}
 
 	private void IdleEvent_OnIdle(IdleEvent idleEvent)

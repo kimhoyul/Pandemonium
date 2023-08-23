@@ -50,10 +50,10 @@ PrefabInstance:
     - target: {fileID: 2474475477819593260, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: abbe40c4d6a803f42a7c4f53404a484d, type: 3}
     - target: {fileID: 2474475477819593260, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2474475477819593261, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: e87ce176a15556c459b355908992b930, type: 2}
     - target: {fileID: 2474475478601975839, guid: d9626f687a169ff40b9790ae80067770, type: 3}
       propertyPath: m_Mass
-      value: 0.6
+      value: 0.7554301
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9626f687a169ff40b9790ae80067770, type: 3}
