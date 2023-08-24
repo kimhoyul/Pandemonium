@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DungeonLevel_", menuName = "Scriptable Objects/던전/던전 레벨")]
+[CreateAssetMenu(fileName = "DungeonLevel_", menuName = "Scriptable Objects/Dungeon/DungeonLevelSO")]
 public class DungeonLevelSO : ScriptableObject
 {
     #region Header BASIC LEVEL DETAILS

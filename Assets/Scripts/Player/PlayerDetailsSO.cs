@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerDetails_", menuName = "Scriptable Objects/플레이어/플레이어 디테일스")]
+[CreateAssetMenu(fileName = "PlayerDetails_", menuName = "Scriptable Objects/Player/PlayerDetailsSO")]
 public class PlayerDetailsSO : ScriptableObject
 {
     [Space(10)]

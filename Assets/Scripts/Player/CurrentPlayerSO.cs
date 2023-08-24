@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CurrentPlayer", menuName = "Scriptable Objects/플레이어/현재 플레이어")]
+[CreateAssetMenu(fileName = "CurrentPlayer", menuName = "Scriptable Objects/Player/CurrentPlayerSO")]
 public class CurrentPlayerSO : ScriptableObject
 {
     public PlayerDetailsSO playerDetails;

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RoomNodeTypeListSO", menuName = "Scriptable Objects/던전/던전 룸 노드 타입 리스트")]
+[CreateAssetMenu(fileName = "RoomNodeTypeListSO", menuName = "Scriptable Objects/Dungeon/RoomNodeTypeListSO")]
 public class RoomNodeTypeListSO : ScriptableObject
 {
 	#region Header ROOM NODE TYPE LIST

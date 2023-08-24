@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Room_", menuName = "Scriptable Objects/던전/던전 룸")]
+[CreateAssetMenu(fileName = "Room_", menuName = "Scriptable Objects/Dungeon/RoomTemplateSO")]
 public class RoomTemplateSO : ScriptableObject
 {
     [HideInInspector] public string guid;
