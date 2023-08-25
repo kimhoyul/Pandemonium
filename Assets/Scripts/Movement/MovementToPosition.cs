@@ -25,7 +25,7 @@ public class MovementToPosition : MonoBehaviour
         movementToPositionEvent.OnMovementToPosition -= MovementToPositionEvent_OnMovementToPosition;
     }
 
-    private void MovementToPositionEvent_OnMovementToPosition(MovementToPositionEvent movementToPositionEvent, MovementToPositioArgs movementToPositioArgs)
+    private void MovementToPositionEvent_OnMovementToPosition(MovementToPositionEvent movementToPositionEvent, MovementToPositionArgs movementToPositioArgs)
     {
         MoveRigidBody(movementToPositioArgs.movePosition, movementToPositioArgs.currentPosition, movementToPositioArgs.moveSpeed);
     }
@@ -35,5 +35,6 @@ public class MovementToPosition : MonoBehaviour
         Vector2 directionVector = Vector3.Normalize(movePosition - currentPosition);
 
         rigidBody2D.MovePosition(rigidBody2D.position + (directionVector * moveSpeed * Time.fixedDeltaTime));
+
     }
 }

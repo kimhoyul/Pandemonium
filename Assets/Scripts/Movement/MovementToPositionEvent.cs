@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class MovementToPositionEvent : MonoBehaviour
 {
-    public event Action<MovementToPositionEvent, MovementToPositioArgs> OnMovementToPosition;
+    public event Action<MovementToPositionEvent, MovementToPositionArgs> OnMovementToPosition;
 
     public void CallMovementToPositionEvent(Vector3 movePosition, Vector3 currentPosition, float moveSpeed, Vector2 moveDirection, bool isRolling = false)
     {
-        OnMovementToPosition?.Invoke(this, new MovementToPositioArgs
+        OnMovementToPosition?.Invoke(this, new MovementToPositionArgs
         {
             movePosition = movePosition,
             currentPosition = currentPosition,
@@ -18,7 +18,7 @@ public class MovementToPositionEvent : MonoBehaviour
     }
 }
 
-public class MovementToPositioArgs : EventArgs
+public class MovementToPositionArgs : EventArgs
 {
     public Vector3 movePosition;
     public Vector3 currentPosition;
