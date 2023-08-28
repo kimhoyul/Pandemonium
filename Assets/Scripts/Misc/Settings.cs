@@ -52,6 +52,7 @@ public static class Settings
     public static int rollDown = Animator.StringToHash("rollDown");
 
     public static int Open = Animator.StringToHash("open");
+    public static int close = Animator.StringToHash("close");
 	#endregion
 
 	#region GAMEOBJECT TAGS
