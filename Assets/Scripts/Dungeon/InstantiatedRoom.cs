@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 [DisallowMultipleComponent]
@@ -31,10 +32,12 @@ public class InstantiatedRoom : MonoBehaviour
 
         BlockOfUnusedDoorways();
 
+        AddDoorsToRooms();
+
         DisableCollisionTilemapRenderer();
     }
 
-    private void PopulateTilemapMemberVariables(GameObject roomGameobject)
+	private void PopulateTilemapMemberVariables(GameObject roomGameobject)
     {
         grid = roomGameobject.GetComponentInChildren<Grid>();
 
@@ -164,9 +167,47 @@ public class InstantiatedRoom : MonoBehaviour
 
     }
 
-    private void DisableCollisionTilemapRenderer()
+	private void AddDoorsToRooms()
+	{
+		if (room.roomNodeType.isCorridorEW || room.roomNodeType.isCorridorNS)
+        {
+			return;
+		}
+
+        foreach (Doorway doorway in room.doorwayList)
+        {
+            if (doorway.doorPrefab != null && doorway.isConnected)
+            {
+				float tileDistance = Settings.tileSizePixel / Settings.pixelPerUnit;
+
+                GameObject door = null;
+
+                if (doorway.orientation == Orientation.north)
+                {
+                    door = Instantiate(doorway.doorPrefab, gameObject.transform);
+                    door.transform.localPosition = new Vector3(doorway.position.x + tileDistance / 2f, doorway.position.y + tileDistance, 0f);
+                }
+                else if (doorway.orientation == Orientation.south)
+                {
+					door = Instantiate(doorway.doorPrefab, gameObject.transform);
+					door.transform.localPosition = new Vector3(doorway.position.x + tileDistance / 2f, doorway.position.y, 0f);
+				}
+				else if (doorway.orientation == Orientation.east)
+				{
+					door = Instantiate(doorway.doorPrefab, gameObject.transform);
+					door.transform.localPosition = new Vector3(doorway.position.x + tileDistance, doorway.position.y + tileDistance * 1.25f, 0f);
+				}
+				else if (doorway.orientation == Orientation.west)
+				{
+					door = Instantiate(doorway.doorPrefab, gameObject.transform);
+					door.transform.localPosition = new Vector3(doorway.position.x , doorway.position.y + tileDistance * 1.25f, 0f);
+				}
+			}
+        }
+    }
+
+	private void DisableCollisionTilemapRenderer()
     {
         collisionTilemap.gameObject.GetComponent<TilemapRenderer>().enabled = false;
     }
-
 }

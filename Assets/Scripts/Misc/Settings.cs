@@ -4,9 +4,14 @@ using UnityEngine;
 
 public static class Settings
 {
-    #region ROOM NODE GRAPH EDITOR SETTINGS
-    // Node Layout 값 설정
-    public const float roomNodeWidth = 160f;
+	#region UNITS
+    public const float pixelPerUnit = 16f;
+    public const float tileSizePixel = 16;
+	#endregion
+
+	#region ROOM NODE GRAPH EDITOR SETTINGS
+	// Node Layout 값 설정
+	public const float roomNodeWidth = 160f;
     public const float roomNodeHeight = 75f;
 
     public const int nodePadding = 25;
@@ -45,5 +50,12 @@ public static class Settings
     public static int rollLeft = Animator.StringToHash("rollLeft");
     public static int rollRight = Animator.StringToHash("rollRight");
     public static int rollDown = Animator.StringToHash("rollDown");
-    #endregion
+
+    public static int Open = Animator.StringToHash("open");
+	#endregion
+
+	#region GAMEOBJECT TAGS
+	public const string playerTag = "Player";
+    public const string playerWeapon = "playerWeapon";
+		#endregion
 }
