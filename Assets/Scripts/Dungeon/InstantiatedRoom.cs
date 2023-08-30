@@ -26,7 +26,19 @@ public class InstantiatedRoom : MonoBehaviour
         roomColliderBouders = boxCollider2D.bounds;
     }
 
-    public void Initialise(GameObject roomGameobject)
+    // 플레이어가 이 방의 콜리전에 닿으면 RoomChangedEvent 를 호출
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.tag == Settings.playerTag && room != GameManager.Instance.GetCurrentRoom())
+        {
+            // 플레이어가 지금 방을 방문한것으로 처리
+            this.room.isPreviouslyVisited = true;
+
+            StaticEventHandler.CallRoomChangedEvent(room);
+        }
+	}
+
+	public void Initialise(GameObject roomGameobject)
     {
         PopulateTilemapMemberVariables(roomGameobject);
 

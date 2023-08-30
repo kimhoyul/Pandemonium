@@ -81,6 +81,8 @@ public class GameManager : SingletonMonobehaviour<GameManager>
             Debug.LogError("지정된 방과 노드 그래프에서 던전을 구축할 수 없습니다.");
         }
 
+        StaticEventHandler.CallRoomChangedEvent(currentRoom);
+
         // 현재 방의 중간 위치 설정
         player.gameObject.transform.position = new Vector3((currentRoom.lowerBounds.x + currentRoom.upperBounds.x) / 2f, (currentRoom.lowerBounds.y + currentRoom.upperBounds.y) / 2f, 0f);
 

@@ -35,6 +35,26 @@ public class GameResources : MonoBehaviour
     #region Header MATERIALS
     [Space(10)]
     [Header("MATERIALS")]
-    #endregion
 	public Material dimmedMaterial;
+
+	[Tooltip("Sprite-Lit-Default Material")]
+	public Material litMaterial;
+
+	[Tooltip("Lit Shader 변수를 넣어주세요.")]
+	public Shader variableLitShader;
+	#endregion
+
+	#region Validation
+#if UNITY_EDITOR
+	private void OnValidate()
+	{
+		HelperUtilities.ValidateCheckNullValue(this, nameof(typeListSO), typeListSO);
+		HelperUtilities.ValidateCheckNullValue(this, nameof(currentPlayer), currentPlayer);
+		HelperUtilities.ValidateCheckNullValue(this, nameof(litMaterial), litMaterial);
+		HelperUtilities.ValidateCheckNullValue(this, nameof(dimmedMaterial), dimmedMaterial);
+		HelperUtilities.ValidateCheckNullValue(this, nameof(variableLitShader), variableLitShader);
+	}
+#endif
+	#endregion
+
 }
