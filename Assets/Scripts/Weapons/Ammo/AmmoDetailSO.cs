@@ -26,9 +26,9 @@ public class AmmoDetailSO : ScriptableObject
     [Header("AMMO BASE PARAMETERS")]
     [Tooltip("탄약의 데미지")]
     public int ammoDamage = 1;
-    [Tooltip("탄약의 최소 속도")]
+    [Tooltip("탄약의 최소 속도 입니다. - 탄약의 최소 속도와 최대 속도 사이의 랜덤한 속도가 선택됩니다.")]
     public float ammoSpeedMin = 20f;
-    [Tooltip("탄약의 최대 속도")]
+    [Tooltip("탄약의 최대 속도 입니다. - 탄약의 최소 속도와 최대 속도 사이의 랜덤한 속도가 선택됩니다.")]
     public float ammoSpeedMax = 20f;
     [Tooltip("탄약의 사거리")]
     public float ammoRange = 20f;
@@ -37,8 +37,29 @@ public class AmmoDetailSO : ScriptableObject
 
     [Space(10)]
     [Header("AMMO SPREAD DETAILS")]
-    [Tooltip("탄약의 최소 분산 각도 입니다.")]
+    [Tooltip("탄약의 최소 분산 각도 입니다. - 최소 분산 각도와 최대 분산 각도 사이의 랜덤한 각도가 선택됩니다.")]
     public float ammoSpreadMin = 0f;
-    [Tooltip("탄약의 최대 분산 각도 입니다.")]
+    [Tooltip("탄약의 최대 분산 각도 입니다. - 최소 분산 각도와 최대 분산 각도 사이의 랜덤한 각도가 선택됩니다.")]
     public float ammoSpreadMax = 0f;
-}   
+
+    [Space(10)]
+    [Header("AMMO SPAWN DETAILS")]
+    [Tooltip("탄약의 최소 생성 개수 입니다. - 최소 생성 개수와 최대 생성 개수 사이의 랜덤한 개수가 선택됩니다.")]
+    public int ammoSpawnAmountMin = 1;
+	[Tooltip("탄약의 최대 생성 개수 입니다. - 최소 생성 개수와 최대 생성 개수 사이의 랜덤한 개수가 선택됩니다.")]
+	public int ammoSpawnAmountMax = 1;
+	[Tooltip("탄약의 최소 생성 간격 입니다. - 최소 생성 간격과 최대 생성 간격 사이의 랜덤한 간격이 선택됩니다.")]
+	public int ammoSpawnIntervalMin = 0;
+	[Tooltip("탄약의 최대 생성 간격 입니다. - 최소 생성 간격과 최대 생성 간격 사이의 랜덤한 간격이 선택됩니다.")]
+	public int ammoSpawnIntervalMax = 0;
+
+	[Space(10)]
+	[Header("AMMO TRAIL DETAILS")]
+	[Tooltip("탄알 궤적이 필요하다면 True 로 선택해주세요. 선택한경우에는 탄알 궤적 값들도 채워야 합니다. 그렇지 않은 경우 선택을 해제하세요.")]
+	public bool isAmmoTrail = false;
+    [Tooltip("탄약 궤적의 지속 시간")]
+    public float ammoTrailTime = 3f;
+    [Tooltip("탄약 궤적의 메태리얼")]
+    public Material ammoTrailMaterial;
+
+}
