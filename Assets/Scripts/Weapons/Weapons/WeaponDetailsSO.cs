@@ -14,8 +14,8 @@ public class WeaponDetailsSO : ScriptableObject
     [Header("WEAPON CONFIGURATION")]
     [Tooltip("무기의 발사 위치")]
     public Vector3 weaponShootPosition;
-    //[Tooltip("무기의 현재 탄약")]
-    //public AmmoDetailsSO weaponCurrentAmmo;
+    [Tooltip("무기의 현재 탄약")]
+    public AmmoDetailsSO weaponCurrentAmmo;
 
     [Space(10)]
     [Header("WEAPON OPERATING VALUES")]

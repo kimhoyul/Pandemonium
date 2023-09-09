@@ -36,6 +36,18 @@ public static class HelperUtilities
 		return degrees;
 	}
 
+	// 각도로부터 방향 벡터 가져오기
+	public static Vector3 GetDirectionVectorFromAngle(float angle)
+	{
+        // 삼각법 
+        // magnitude == 1
+        // x = cos(degrees)
+        // y = sin(degrees)
+        // 매개변수 angle 값을 Mathf.Deg2Rad 하여 degrees 로 치환
+        Vector3 directionVector = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad), 0f);
+		return directionVector;
+    }
+
 	// 각도 에서 AimDirection 열거형 값 가져오기
 	public static AimDirection GetAimDirection(float angleDegrees)
 	{

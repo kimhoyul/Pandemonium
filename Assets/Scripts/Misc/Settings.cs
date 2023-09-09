@@ -60,5 +60,9 @@ public static class Settings
 	#region GAMEOBJECT TAGS
 	public const string playerTag = "Player";
     public const string playerWeapon = "playerWeapon";
-		#endregion
+    #endregion
+
+    #region FIRING CONTROL
+    public const float useAimAngleDistance = 3.5f;
+    #endregion
 }
