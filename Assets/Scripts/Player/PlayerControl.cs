@@ -2,15 +2,15 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
+[DisallowMultipleComponent]
 public class PlayerControl : MonoBehaviour
 {
     [Tooltip("movementDetailsSO 는 속도와 같은 세부 정보를 포함하는 ScriptableObject 입니다.")]
     [SerializeField] private MovementDetailsSO movementDetails;
 
-    [Tooltip("Player Prefab 의 hierarchy 에서 WeaponShootPosition gameobject 를 드래그 해 넣어주세요.")]
-    [SerializeField] private Transform weaponShootPosition;
-
     private Player player;
+    private int currentWeaponIndex = 1;
     private float moveSpeed;
     private Coroutine playerRollCoroutine;
     private WaitForFixedUpdate waitForFixedUpdate;
@@ -39,10 +39,28 @@ public class PlayerControl : MonoBehaviour
 	{
 		waitForFixedUpdate = new WaitForFixedUpdate();
 
+        SetStartingWeapon();
+
         SetPlayerAnimationSpeed();
 	}
 
-	private void SetPlayerAnimationSpeed()
+    private void SetStartingWeapon()
+    {
+        int index = 1;
+
+        foreach (Weapon weapon in player.weaponList)
+        {
+            if (weapon.weaponDetailsSO == player.playerDetails.startingWeapon)
+            {
+                SetWeaponByIndex(index);
+                break;
+            }
+
+            index++;
+        }
+    }
+
+    private void SetPlayerAnimationSpeed()
 	{
         player.animator.speed = moveSpeed / Settings.baseSpeedForPlayerAnimations;
 	}
@@ -133,7 +151,7 @@ public class PlayerControl : MonoBehaviour
         Vector3 mouseWorldPosition = HelperUtilities.GetMouseWorldPosition();
 
         // 무기 발사 위치부터 마우스 까지의 방향 계산
-        weaponDirection = (mouseWorldPosition - weaponShootPosition.position);
+        weaponDirection = (mouseWorldPosition - player.activeWeapon.GetShootPosition());
 
         // 플레이어 위치부터 마우스 까지의 방향 계산
         Vector3 playerDirection = (mouseWorldPosition - transform.position);
@@ -151,7 +169,17 @@ public class PlayerControl : MonoBehaviour
         player.aimWeaponEvent.CallAimWeaponEvent(playerAimDirection, playerAngleDegrees, weaponAngleDegrees, weaponDirection);
     }
 
-	private void OnCollisionEnter2D(Collision2D collision)
+    private void SetWeaponByIndex(int weaponIndex)
+    {
+        if (weaponIndex - 1 < player.weaponList.Count)
+        {
+            currentWeaponIndex = weaponIndex;
+
+            player.setActiveWeaponEvent.CallSetActiveWeaponEvent(player.weaponList[currentWeaponIndex - 1]);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
 	{
         StopPlayerRollRoutine();
 	}
