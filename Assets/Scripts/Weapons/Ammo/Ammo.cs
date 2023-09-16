@@ -50,39 +50,55 @@ public class Ammo : MonoBehaviour, IFireable
         DisableAmmo();
     }
 
-    // 총알이 발사되기전 총알에 대한 설정
+    /// <summary>
+    /// `IFireable` 인터페이스를 통한 함수 구현. 총알 발사 전에 필요한 설정들을 여기서 해줌
+    /// </summary>
+    /// <param name="ammoDetails">총알에 대한 상세 정보</param>
+    /// <param name="aimAngle">캐릭터 몸으로부터의 조준 각도</param>
+    /// <param name="weaponAimAngle">무기로부터의 조준 각도</param>
+    /// <param name="ammoSpeed">총알 속도</param>
+    /// <param name="weaponAimDirectionVector">무기 조준 방향 벡터</param>
+    /// <param name="overrideAmmoMovement">총알 움직임을 오버라이드 할 것인지 여부</param>
     public void InitializeAmmo(AmmoDetailsSO ammoDetails, float aimAngle, float weaponAimAngle, float ammoSpeed, Vector3 weaponAimDirectionVector, bool overrideAmmoMovement = false)
     {
         #region Ammo
         ammoDetailsSO = ammoDetails;
-        
+
+        // 발사 방향 설정해 줌.
         SetFireDirection(ammoDetails, aimAngle, weaponAimAngle, weaponAimDirectionVector);
 
+        // 총알 스프라이트 이미지 설정해 줌.
         spriteRenderer.sprite = ammoDetails.ammoSprite;
 
+        // 총알의 충전 시간이 있으면 충전 타이머와 재질 설정
         if (ammoDetails.ammoChargeTime > 0f)
         {
             ammoChageTimer = ammoDetails.ammoChargeTime;
             SetAmmoMaterial(ammoDetails.ammoChargeMaterial);
             isAmmoMaterialSet = false;
         }
-        else
+        else // 없으면 그냥 총알 재질 설정
         {
             ammoChageTimer = 0f;
             SetAmmoMaterial(ammoDetails.ammoMaterial);
             isAmmoMaterialSet = true;
         }
 
+        // 총알의 범위 설정
         ammoRange = ammoDetails.ammoRange;
 
+        // 총알의 속도 설정
         this.ammoSpeed = ammoSpeed;
 
+        // 총알 움직임 오버라이드 설정
         this.overrideAmmoMovement = overrideAmmoMovement;
 
+        // 총알 게임 오브젝트 활성화
         gameObject.SetActive(true);
         #endregion
 
         #region TrailRenderer
+        // 총알에 트레일(꼬리)이 있으면 관련 설정을 해준다.
         if (ammoDetails.isAmmoTrail)
         {
             trailRenderer.gameObject.SetActive(true);
@@ -92,7 +108,7 @@ public class Ammo : MonoBehaviour, IFireable
             trailRenderer.endWidth = ammoDetails.ammoTrailEndWidth;
             trailRenderer.time = ammoDetails.ammoTrailTime;
         }
-        else
+        else // 없으면 트레일(꼬리)를 꺼준다.
         {
             trailRenderer.emitting = false;
             trailRenderer.gameObject.SetActive(false);
@@ -100,14 +116,22 @@ public class Ammo : MonoBehaviour, IFireable
         #endregion
     }
 
+    /// <summary>
+    /// 총알의 발사 방향을 설정
+    /// </summary>
+    /// <param name="ammoDetails">총알의 세부 사항</param>
+    /// <param name="aimAngle">플레이어의 목표 각도</param>
+    /// <param name="weaponAimAngle">무기의 목표 각도</param>
+    /// <param name="weaponAimDirectionVector">무기의 목표 방향 벡터</param>
     private void SetFireDirection(AmmoDetailsSO ammoDetails, float aimAngle, float weaponAimAngle, Vector3 weaponAimDirectionVector)
     {
-        // 총알의 흩뿌려질 강도를 랜덤하게 선택 
+        // 총알이 랜덤하게 퍼지는 강도 정함
         float randomSpread = Random.Range(ammoDetails.ammoSpreadMin, ammoDetails.ammoSpreadMax);
 
-        // 흩뿌려질떄 위, 아래 토글 위해 랜덤하게 1, -1 선택
+        // 총알이 위로 퍼질지, 아래로 퍼질지 토글. 1이면 위, -1이면 아래
         int spreadToggle = Random.Range(0, 2) * 2 - 1;
 
+        // 무기의 방향 벡터의 크기가 설정된 거리보다 작으면 플레이어의 목표 각도 사용
         if (weaponAimDirectionVector.magnitude < Settings.useAimAngleDistance)
         {
             fireDirectionAngle = aimAngle;
@@ -117,14 +141,16 @@ public class Ammo : MonoBehaviour, IFireable
             fireDirectionAngle = weaponAimAngle;
         }
 
-        // 랜덤하게 뿌려질 범위와 위,아래 토글을 곱하여 총알의 발사 각도를 설정
+        // 랜덤 퍼짐 범위와 위/아래 토글로 발사 각도 설정
         fireDirectionAngle += randomSpread * spreadToggle;
 
-        // 총알(Sprite)의 방향을 조정
+        // 총알의 방향 정함
         transform.eulerAngles = new Vector3(0f, 0f, fireDirectionAngle);
 
+        // 각도로부터 방향 벡터를 구하기
         fireDirectionVector = HelperUtilities.GetDirectionVectorFromAngle(fireDirectionAngle);
     }
+
 
     private void DisableAmmo()
     {
