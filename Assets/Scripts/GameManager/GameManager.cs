@@ -62,12 +62,12 @@ public class GameManager : SingletonMonobehaviour<GameManager>
     {
         HandleGameState();
 
-        //---------------- 테스트용 코드----------------//
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            gameState = GameState.gameStarted;
-        }
-        //----------------------------------------------//
+        ////---------------- 테스트용 코드----------------//
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    gameState = GameState.gameStarted;
+        //}
+        ////----------------------------------------------//
     }
 
     private void HandleGameState()

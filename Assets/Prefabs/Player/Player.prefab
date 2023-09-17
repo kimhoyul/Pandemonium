@@ -209,6 +209,9 @@ GameObject:
   - component: {fileID: 5125644045388704375}
   - component: {fileID: -4437357119516258064}
   - component: {fileID: 5492430572062019433}
+  - component: {fileID: 2522712392272943264}
+  - component: {fileID: 3246074566620076481}
+  - component: {fileID: 4351939236588878351}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -437,6 +440,8 @@ MonoBehaviour:
   setActiveWeaponEvent: {fileID: 0}
   activeWeapon: {fileID: 0}
   weaponFiredEvent: {fileID: 0}
+  reloadWeaponEvent: {fileID: 0}
+  weaponReloadedEvent: {fileID: 0}
   spriteRenderer: {fileID: 0}
   animator: {fileID: 0}
 --- !u!114 &3649256945772513785
@@ -623,6 +628,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2a9167f68ddb1f40b54ceb9eca272c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2522712392272943264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474475478601975809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfa96a62dd54a694a85cdca987731ad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3246074566620076481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474475478601975809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c64dbf1d919b74ba91582769b404af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4351939236588878351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474475478601975809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f575e02dd226def47ba74665c82ec255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2969363188256383479

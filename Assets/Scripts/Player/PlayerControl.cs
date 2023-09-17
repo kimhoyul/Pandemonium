@@ -145,6 +145,8 @@ public class PlayerControl : MonoBehaviour
         AimWeaponInput(out weaponDirection, out weaponAngleDegrees, out playerAngleDegrees, out playerAimDirection);
 
         FireWeaponInput(weaponDirection, weaponAngleDegrees, playerAngleDegrees, playerAimDirection);
+
+        ReloadWeaponInput();
     }
 
     private void AimWeaponInput(out Vector3 weaponDirection, out float weaponAngleDegrees, out float playerAngleDegrees, out AimDirection playerAimDirection)
@@ -187,6 +189,30 @@ public class PlayerControl : MonoBehaviour
 
             player.setActiveWeaponEvent.CallSetActiveWeaponEvent(player.weaponList[currentWeaponIndex - 1]);
         }
+    }
+
+    private void ReloadWeaponInput()
+    {
+        // 현재 무기 가져오기
+        Weapon currentWeapon = player.activeWeapon.GetCurrentWeapon();
+
+        // 재장전 중인지 확인
+        if (currentWeapon.isWeaponReloading) return;
+
+        // 재장전 할 만큼 탄약이 있는지 확인 -> 현재 무기의 탄창 용량보다 탄약이 적거나, 무기가 무한 탄약을 가지고 있지 않은 경우 리턴
+        if (currentWeapon.weaponRemainingAmmo < currentWeapon.weaponDetailsSO.weaponClipAmmoCapacity && !currentWeapon.weaponDetailsSO.hasInfiniteAmmo)
+            return;
+
+        // 탄창이 이미 꽉차있는지 확인
+        if (currentWeapon.weaponClipRemainingAmmo == currentWeapon.weaponDetailsSO.weaponClipAmmoCapacity) return;
+
+        // 재장전 키 입력 확인
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            // 재장전 이벤트 호출
+            player.reloadWeaponEvent.CallReloadWeaponEvent(player.activeWeapon.GetCurrentWeapon(), 0);
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
