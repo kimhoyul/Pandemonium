@@ -6,11 +6,12 @@ public class FireWeaponEvent : MonoBehaviour
 {
     public event Action<FireWeaponEvent, FireWeaponEventArgs> OnFireWeapon;
 
-    public void CallFireWeaponEvent(bool fire, AimDirection aimDirection, float aimAngle, float weaponAimAngle, Vector3 weaponAimDirectionVector)
+    public void CallFireWeaponEvent(bool fire, bool firePreviousFrame, AimDirection aimDirection, float aimAngle, float weaponAimAngle, Vector3 weaponAimDirectionVector)
     {
         OnFireWeapon?.Invoke(this, new FireWeaponEventArgs
         {
             fire = fire,
+            firePreviousFrame = firePreviousFrame,
             aimDirection = aimDirection,
             aimAngle = aimAngle,
             weaponAimAngle = weaponAimAngle,
@@ -23,6 +24,8 @@ public class FireWeaponEventArgs : EventArgs
 {
     // 발사 여부
     public bool fire;
+    // 이전 프레임에서 발사 여부
+    public bool firePreviousFrame;
     // 목표 방향
     public AimDirection aimDirection;
     // 목표 각도 -> 플레이어 to 타겟 에서의 각도

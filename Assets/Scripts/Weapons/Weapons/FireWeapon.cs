@@ -7,8 +7,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class FireWeapon : MonoBehaviour
 {
+    // 발사전 무기를 충전하는데 걸리는 시간
+    private float firePreChargeTimer = 0f;
     // 무기를 발사한후 얼마나 시간이 지났는지 모니터링 하는 변수
-    // 무기를 발사할때 이 타이머를 무기의 발사속도와 같게 설정하고, 발사할때마다 타이머를 감소시킨다
     private float fireRateCoolDownTimer = 0f;
     private ActiveWeapon activeWeapon;
     private FireWeaponEvent fireWeaponEvent;
@@ -46,6 +47,9 @@ public class FireWeapon : MonoBehaviour
 
     private void WeaponFire(FireWeaponEventArgs fireWeaponEventArgs)
     {
+        // 발사 충전 시간 핸들링
+        WeaponPreChage(fireWeaponEventArgs);
+
         // 무기가 발사 됬는지 확인 -> PlayerControl 에서 이벤트를 호출
         if (fireWeaponEventArgs.fire)
         {
@@ -57,7 +61,25 @@ public class FireWeapon : MonoBehaviour
 
                 // 발사한 후 쿨다운 타이머 초기화
                 ResetCoolDownTimer();
+
+                // 발사 충전 시간 초기화
+                ResetPreChargeTimer();
             }
+        }
+    }
+
+    private void WeaponPreChage(FireWeaponEventArgs fireWeaponEventArgs)
+    {
+        // 이전 프레임에서 발사 버튼을 눌렀다면
+        if (fireWeaponEventArgs.firePreviousFrame)
+        {
+            // firePreChargeTimer 감소
+            firePreChargeTimer -= Time.deltaTime;
+        }
+        else
+        {
+            // 발사 준비 시간 초기화
+            ResetPreChargeTimer();
         }
     }
 
@@ -76,8 +98,8 @@ public class FireWeapon : MonoBehaviour
         if (activeWeapon.GetCurrentWeapon().isWeaponReloading)
             return false;
 
-        // 무기가 쿨다운 중인지 확인
-        if (fireRateCoolDownTimer > 0)
+        // 무기가 쿨다운 중이거나 발사 충전 시간이 남아 있는지 확인
+        if (firePreChargeTimer > 0 || fireRateCoolDownTimer > 0)
             return false;
 
         // 무기가 탄창이 무한탄창 인지, 탄창에 탄약이 있는지 확인
@@ -133,4 +155,13 @@ public class FireWeapon : MonoBehaviour
     {
         fireRateCoolDownTimer = activeWeapon.GetCurrentWeapon().weaponDetailsSO.weaponFireRate;
     }
+
+    /// <summary>
+    /// 발사 충전 시간 타이머를 재설정
+    /// </summary>
+    private void ResetPreChargeTimer()
+    {
+        firePreChargeTimer = activeWeapon.GetCurrentWeapon().weaponDetailsSO.weaponPrechargeTime;
+    }
+
 }
