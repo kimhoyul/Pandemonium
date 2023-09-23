@@ -65,4 +65,8 @@ public static class Settings
     #region FIRING CONTROL
     public const float useAimAngleDistance = 3.5f;
     #endregion
+
+    #region UI PARAMETERS
+    public const float uiAmmoIconSpacing = 4f;
+    #endregion
 }

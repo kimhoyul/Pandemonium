@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameResources : MonoBehaviour
@@ -22,15 +20,15 @@ public class GameResources : MonoBehaviour
 	[Space(10)]
 	[Header("DUNGEON")]
 	[Tooltip("RoomNodeTypeListSO 로 채우세요")]
-	#endregion
 	public RoomNodeTypeListSO typeListSO;
+    #endregion
 
     #region Header PLAYER
     [Space(10)]
     [Header("PLAYER")]
     [Tooltip("현재 플레이어 Scriptable Object - 장면 간에 현재 플레이어를 참조하는 데 사용됩니다.")]
-    #endregion
     public CurrentPlayerSO currentPlayer;
+    #endregion
 
     #region Header MATERIALS
     [Space(10)]
@@ -44,15 +42,23 @@ public class GameResources : MonoBehaviour
 	public Shader variableLitShader;
 	#endregion
 
-	#region Validation
+	#region Header UI
+	[Space(10)]
+	[Header("UI")]
+	[Tooltip("AmmoIcon 프리팹 을 넣어주세요.")]
+	public GameObject ammoIconPrefab;
+    #endregion
+
+    #region Validation
 #if UNITY_EDITOR
-	private void OnValidate()
+    private void OnValidate()
 	{
 		HelperUtilities.ValidateCheckNullValue(this, nameof(typeListSO), typeListSO);
 		HelperUtilities.ValidateCheckNullValue(this, nameof(currentPlayer), currentPlayer);
 		HelperUtilities.ValidateCheckNullValue(this, nameof(litMaterial), litMaterial);
 		HelperUtilities.ValidateCheckNullValue(this, nameof(dimmedMaterial), dimmedMaterial);
 		HelperUtilities.ValidateCheckNullValue(this, nameof(variableLitShader), variableLitShader);
+		HelperUtilities.ValidateCheckNullValue(this, nameof(ammoIconPrefab), ammoIconPrefab);
 	}
 #endif
 	#endregion
