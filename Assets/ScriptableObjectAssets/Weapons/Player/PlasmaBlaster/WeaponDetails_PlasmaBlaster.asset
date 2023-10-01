@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: PlasmaBlaster
   weaponSprite: {fileID: 21300000, guid: a9d9372b640a67a4dae1cdbb59e3b919, type: 3}
   weaponShootPosition: {x: 1.245, y: 0.277, z: 0}
-  weaponCurrentAmmo: {fileID: 11400000, guid: 3763c0b6f2676cb4990a7554c92203fc, type: 2}
+  weaponCurrentAmmo: {fileID: 11400000, guid: 36a4ae07456f80b4dba46c82d8b136c9, type: 2}
   hasInfiniteAmmo: 1
   hasInfiniteClipCapacity: 0
   weaponClipAmmoCapacity: 6

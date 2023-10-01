@@ -1,6 +1,7 @@
-using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Player))]
 [DisallowMultipleComponent]
@@ -147,10 +148,12 @@ public class PlayerControl : MonoBehaviour
 
         FireWeaponInput(weaponDirection, weaponAngleDegrees, playerAngleDegrees, playerAimDirection);
 
-        ReloadWeaponInput();
+        SwitchWeaponInput();
+
+		ReloadWeaponInput();
     }
 
-    private void AimWeaponInput(out Vector3 weaponDirection, out float weaponAngleDegrees, out float playerAngleDegrees, out AimDirection playerAimDirection)
+	private void AimWeaponInput(out Vector3 weaponDirection, out float weaponAngleDegrees, out float playerAngleDegrees, out AimDirection playerAimDirection)
     {
         // 마우스 월드 포지션 계산
         Vector3 mouseWorldPosition = HelperUtilities.GetMouseWorldPosition();
@@ -187,8 +190,77 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void SetWeaponByIndex(int weaponIndex)
+	private void SwitchWeaponInput()
+	{
+        // 마우스 스크롤 입력 방향 확인 <- 0보다 크면 위로, 0보다 작으면 아래로
+		if (Input.mouseScrollDelta.y < 0f)
+        {
+            PreviousWeapon();
+        }
+
+        if (Input.mouseScrollDelta.y > 0f)
+        {
+			NextWeapon();
+		}
+        
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+			SetWeaponByIndex(1);
+		}
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+			SetWeaponByIndex(2);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+			SetWeaponByIndex(3);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			SetWeaponByIndex(4);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha5))
+		{
+			SetWeaponByIndex(5);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha6))
+		{
+			SetWeaponByIndex(6);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha7))
+		{
+			SetWeaponByIndex(7);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha8))
+		{
+			SetWeaponByIndex(8);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha9))
+		{
+			SetWeaponByIndex(9);
+		}
+
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            SetCurrentWeaponToFirstInTheList();
+		}
+	}
+
+	/// <summary>
+	/// 인덱스 이용해 무기 전환
+	/// </summary>
+	/// <param name="weaponIndex">변경할 무기의 인덱스</param>
+	private void SetWeaponByIndex(int weaponIndex)
     {
+        // 인덱스가 무기 리스트의 범위를 벗어나는지 확인
         if (weaponIndex - 1 < player.weaponList.Count)
         {
             currentWeaponIndex = weaponIndex;
@@ -197,7 +269,41 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void ReloadWeaponInput()
+    /// <summary>
+    /// 다음 무기로 변경
+    /// </summary>
+	private void NextWeapon()
+	{
+        currentWeaponIndex++;
+
+        // 증가된 현재 무기 인덱스가 무기 리스트의 범위를 초과하는지 확인
+        if (currentWeaponIndex > player.weaponList.Count)
+        {
+            // 무기 리스트의 범위를 초과한다면 첫번째 무기로 변경
+			currentWeaponIndex = 1;
+		}
+
+		SetWeaponByIndex(currentWeaponIndex);
+	}
+
+	/// <summary>
+	/// 이전 무기로 변경
+	/// </summary>
+	private void PreviousWeapon()
+	{
+		currentWeaponIndex--;
+
+		// 감소된 현재 무기 인덱스가 1 보다 작은지 확인
+		if (currentWeaponIndex < 1)
+		{
+			// 1 미만 이라면 마지막 무기로 변경
+			currentWeaponIndex = player.weaponList.Count;
+		}
+
+		SetWeaponByIndex(currentWeaponIndex);
+	}
+
+	private void ReloadWeaponInput()
     {
         // 현재 무기 가져오기
         Weapon currentWeapon = player.activeWeapon.GetCurrentWeapon();
@@ -239,6 +345,36 @@ public class PlayerControl : MonoBehaviour
 
             isPlayerRolling = false;
         }
+	}
+
+    /// <summary>
+    /// 현재 착용 무기를 첫번째 무기로 등록
+    /// </summary>
+	private void SetCurrentWeaponToFirstInTheList()
+	{
+	    List<Weapon> tempWeaponList = new List<Weapon>();
+
+        // 현재 착용한 무기 가져오기
+        Weapon currentWeapon = player.weaponList[currentWeaponIndex - 1];
+        currentWeapon.weaponListPosition = 1;
+        tempWeaponList.Add(currentWeapon);
+
+        int index = 2;
+
+        foreach (Weapon weapon in player.weaponList)
+        {
+			if (weapon == currentWeapon) continue;
+
+			tempWeaponList.Add(weapon);
+            weapon.weaponListPosition = index;
+			index++;
+		}
+
+        player.weaponList = tempWeaponList;
+
+		currentWeaponIndex = 1;
+
+        SetWeaponByIndex(currentWeaponIndex);
 	}
 
 	#region Validation
