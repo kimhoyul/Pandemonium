@@ -1,0 +1,26 @@
+{
+    "name": "com.tooniplay.gameframework",
+    "rootNamespace": "",
+    "references": [
+        "GUID:22938f13224728647ac25a029715f209",
+        "GUID:6fcfb7f5dd9aa7148bd2adfbeb5aeb40",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:72cfd79d942e31c4b937972ad079a600",
+        "GUID:ff351c9c47d01c246bf40ed534f52d8a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
