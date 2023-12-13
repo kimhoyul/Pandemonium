@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fcb249e025cb52548ba675b98009da80
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - projectSettingWindowTreeAsset: {fileID: 9197481963319205126, guid: c228c2598569eee468103343ee6195f5,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

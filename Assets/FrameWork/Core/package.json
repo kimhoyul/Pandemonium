@@ -1,0 +1,25 @@
+{
+    "name": "com.tooniplay.core",
+    "version": "0.0.1",
+    "displayName": "Core",
+    "description": "Core package for Tooniplay.",
+    "unity": "2021.3",
+    "unityRelease": "1f1",
+    "documentationUrl": "https://",
+    "changelogUrl": "https://",
+    "licensesUrl": "https://",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/kollect-cards/Core.git"
+    },
+      "dependencies": {   },
+    "keywords": [
+      "Core"
+    ],
+    "author": {
+      "name": "Dave Cha",
+      "email": "chajaeil@kollect.cards",
+      "url": "https://"
+    }
+  }
+  

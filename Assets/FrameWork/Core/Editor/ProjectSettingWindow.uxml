@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement style="flex-shrink: 0;">
+        <ui:VisualElement style="flex-direction: row;">
+            <uie:PropertyField label="System Setting Containers" binding-path="systemSettingContainers" name="systemSettingContainers" />
+            <uie:PropertyField label="System Setting Container" binding-path="systemSettingContainer" name="systemSettingContainer" />
+            <ui:Button text="Create" display-tooltip-when-elided="true" name="createButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="systemSettingRootView" style="flex-direction: row;">
+        <ui:ListView focusable="true" name="settingListView" style="width: 100px; -unity-text-align: middle-center; border-right-width: 1px; border-right-color: rgb(0, 0, 0);" />
+        <ui:ScrollView name="propertyScrollView" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,29 @@
+{
+    "name": "com.tooniplay.gameframework",
+    "version": "0.0.1",
+    "displayName": "Game Framework",
+    "description": "Game Framework for Tooniplay.",
+    "unity": "2021.3",
+    "unityRelease": "1f1",
+    "documentationUrl": "https://",
+    "changelogUrl": "https://",
+    "licensesUrl": "https://",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/kollect-cards/GameFramework.git"
+    },
+    "dependencies": {
+       "com.tooniplay.core": "0.0.1",
+       "com.tooniplay.uiframework": "0.0.1"
+    },
+   "keywords": [
+      "game",
+      "framework"
+    ],
+    "author": {
+      "name": "Dave Cha",
+      "email": "chajaeil@kollect.cards",
+      "url": "https://"
+    }
+  }
+  
